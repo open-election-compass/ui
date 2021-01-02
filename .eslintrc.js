@@ -16,13 +16,15 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
   overrides: [
+    // Linting Tests:
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
-      ],
+      files: ['**/src/**/*.spec.{js,ts}'],
       env: {
         jest: true,
+      },
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
       },
     },
   ],

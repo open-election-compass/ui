@@ -1,8 +1,7 @@
-import Vue from 'vue';
-import App from './App.vue';
+import BaseButton from './components/base-button/BaseButton.vue';
+import Icon from './components/icon/Icon.vue';
 
-Vue.config.productionTip = false;
-
-new Vue({
-  render: (h) => h(App),
-}).$mount('#app');
+export {
+  BaseButton,
+  Icon,
+};
