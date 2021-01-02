@@ -2,7 +2,7 @@
 > Collection of Vue.js components for the OpenElectionCompass web interfaces.
 
 Components are documented using Storybook.
-[View the all components and docs.](https://open-election-compass.github.io/ui/)
+[📗 Live-Components and Docs](https://open-election-compass.github.io/ui/)
 
 ## Project setup
 ```
