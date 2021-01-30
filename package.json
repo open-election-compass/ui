@@ -1,7 +1,7 @@
 {
   "name": "@open-election-compass/ui",
   "description": "Collection of Vue.js components for the OpenElectionCompass web interfaces.",
-  "version": "0.1.0-alpha.2",
+  "version": "0.2.0",
   "author": "Till Sanders <mail@till-sanders.de>",
   "license": "GPL-3.0",
   "main": "dist/open-election-compass-ui.umd.min.js",
@@ -26,6 +26,7 @@
     "build": "vue-cli-service build --target lib --name OpenElectionCompassUI --filename open-election-compass-ui src/main.ts && unlink dist/demo.html",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
+    "dev": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "prerelease": "npm run build",
@@ -36,7 +37,10 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "normalize.css": "^8.0.1",
+    "vee-validate": "^3.4.5",
+    "vue": "^2.6.11",
+    "vue-i18n": "^8.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

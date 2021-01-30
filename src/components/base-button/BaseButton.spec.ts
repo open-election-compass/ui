@@ -2,7 +2,7 @@ import { shallowMount, Wrapper } from '@vue/test-utils';
 import BaseButton from './BaseButton.vue';
 import Icon from '../icon/Icon.vue';
 
-describe('BaseButton.vue', () => {
+describe('BaseButton', () => {
   let wrapper: Wrapper<Vue>;
   const options = {};
 
