@@ -35,7 +35,7 @@ describe('FieldSwitch', () => {
     });
     expect((wrapper.find('input[value="d"]').element as HTMLInputElement).checked).toBe(true);
     expect((wrapper.find('input[value="m"]').element as HTMLInputElement).checked).toBe(false);
-    await wrapper.find('label.field-switch__button[for="gender-f"]').trigger('click');
+    await wrapper.find('label.field-switch__button[for="field-gender-f"]').trigger('click');
     expect((wrapper.find('input[value="f"]').element as HTMLInputElement).checked).toBe(true);
     await wrapper.setProps({
       value: '',
@@ -59,7 +59,7 @@ describe('FieldSwitch', () => {
     expect(wrapper.find('.field-switch').classes('field-switch--valid')).toBe(false);
 
     // Valid input
-    await wrapper.find('label.field-switch__button[for="gender-f"]').trigger('click');
+    await wrapper.find('label.field-switch__button[for="field-gender-f"]').trigger('click');
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[0][0]).toBe('f');
     expect(wrapper.find('.field-switch').classes('field-switch--valid')).toBe(true);
@@ -67,7 +67,7 @@ describe('FieldSwitch', () => {
     expect(wrapper.find('.field-switch__error').exists()).toBe(false);
 
     // Invalid input
-    await wrapper.find('label.field-switch__button[for="gender-m"]').trigger('click');
+    await wrapper.find('label.field-switch__button[for="field-gender-m"]').trigger('click');
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[1][0]).toBe('');
     expect(wrapper.find('.field-switch').classes('field-switch--invalid')).toBe(true);

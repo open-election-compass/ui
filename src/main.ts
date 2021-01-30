@@ -7,6 +7,7 @@ import Icon from './components/icon/Icon.vue';
 import FieldInput from './components/fields/input/FieldInput.vue';
 import FieldSelect from './components/fields/select/FieldSelect.vue';
 import FieldSwitch from './components/fields/switch/FieldSwitch.vue';
+import FieldTextarea from './components/fields/textarea/FieldTextarea.vue';
 
 export {
   Styles,
@@ -16,4 +17,5 @@ export {
   FieldInput,
   FieldSelect,
   FieldSwitch,
+  FieldTextarea,
 };

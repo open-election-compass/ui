@@ -20,13 +20,13 @@
             v-model="cache"
             :name="alias"
             :value="button.value"
-            :id="`${alias}-${button.value}`"
+            :id="`field-${alias}-${button.value}`"
             class="field-switch__input"
             type="radio"
           />
           <label
             class="field-switch__button"
-            :for="`${alias}-${button.value}`"
+            :for="`field-${alias}-${button.value}`"
           >
             {{ button.option }}
           </label>

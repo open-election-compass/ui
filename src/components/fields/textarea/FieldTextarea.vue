@@ -2,27 +2,26 @@
   <ValidationProvider :name="name" :rules="rules" v-slot="{ changed, errors }" ref="field">
     <div
       :class="{
-        'field-input': true,
-        'field-input--invalid': errors.length > 0,
-        'field-input--valid': errors.length <= 0 && changed,
+        'field-textarea': true,
+        'field-textarea--invalid': errors.length > 0,
+        'field-textarea--valid': errors.length <= 0 && changed,
       }"
     >
-      <label :for="alias" class="field-input__label">
+      <label :for="alias" class="field-textarea__label">
         {{ label }}
       </label>
-      <input
+      <textarea
         v-model="cache"
         @blur="publish()"
-        :type="type"
         :name="alias"
         :id="`field-${alias}`"
-        class="field-input__input"
+        class="field-textarea__textarea"
         :placeholder="placeholder"
       />
-      <small v-if="errors.length < 1" class="field-input__description">
+      <small v-if="errors.length < 1" class="field-textarea__description">
         <slot name="description">{{ description }}</slot>
       </small>
-      <small v-else class="field-input__error">{{ errors[0] }}</small>
+      <small v-else class="field-textarea__error">{{ errors[0] }}</small>
     </div>
   </ValidationProvider>
 </template>
@@ -30,25 +29,17 @@
 <script lang="js">
 import { ValidationProvider, extend } from 'vee-validate';
 
-import {
-  alpha, email, integer, length, max, min, regex, required,
-} from 'vee-validate/dist/rules.umd';
+import { max, min, required } from 'vee-validate/dist/rules.umd';
 
-extend('alpha', alpha);
-extend('email', email);
-extend('integer', integer);
-extend('length', length);
 extend('max', max);
 extend('min', min);
-extend('regex', regex);
 extend('required', required);
 
 /**
- * Renders a textual input field, like text, email, number, etc. together with a label, description
- * and validation.
+ * Renders a textarea together with a label, description and validation.
  */
 export default {
-  name: 'FieldInput',
+  name: 'FieldTextarea',
   data() {
     return {
       cache: null,
@@ -88,16 +79,6 @@ export default {
     label: {
       type: String,
       required: true,
-    },
-    /**
-     * The input type.
-     */
-    type: {
-      type: String,
-      required: true,
-      validator(value) {
-        return ['email', 'file', 'number', 'password', 'tel', 'text', 'url'].includes(value);
-      },
     },
     value: {
       required: true,
@@ -142,17 +123,17 @@ export default {
 <style lang="scss">
 @import '~@/styles/core';
 
-.field-input__label {
+.field-textarea__label {
   display: block;
   margin-bottom: 0.5rem;
   transition: color 0.2s ease-out;
 }
 
-.field-input--invalid .field-input__label {
+.field-textarea--invalid .field-textarea__label {
   color: $theme-negative-background;
 }
 
-.field-input__input {
+.field-textarea__textarea {
   padding: 0.5rem;
   border-radius: 3px;
   border: 1px solid #ddd;
@@ -174,18 +155,18 @@ export default {
   }
 }
 
-.field-input--invalid .field-input__input {
+.field-textarea--invalid .field-textarea__textarea {
   border-color: $theme-negative-border;
 }
 
-.field-input__description {
+.field-textarea__description {
   display: inline-block;
   margin-top: 0.5em;
   font-style: italic;
   color: #999;
 }
 
-.field-input__error {
+.field-textarea__error {
   display: inline-block;
   margin-top: 0.5em;
   border-radius: $border-radius;

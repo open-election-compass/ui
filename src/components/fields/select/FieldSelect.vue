@@ -15,7 +15,7 @@
         v-model="cache"
         @change="publish()"
         :name="alias"
-        :id="alias"
+        :id="`field-${alias}`"
         class="field-select__select"
       >
         <option :value="null" disabled>{{ $t('choose') }}</option>
