@@ -1,5 +1,11 @@
 <template>
-  <ValidationProvider :name="name" :rules="rules" v-slot="{ changed, errors }" ref="field">
+  <ValidationProvider
+    :name="name"
+    :rules="rules"
+    v-slot="{ changed, errors }"
+    slim
+    ref="field"
+  >
     <div
       :class="{
         'field-input': true,
