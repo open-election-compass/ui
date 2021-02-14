@@ -155,7 +155,6 @@ export default {
   border: 0;
   border-radius: $border-radius;
   box-shadow: $shadow-normal;
-  transition: all 0.2s ease-out;
   appearance: none;
   display: inline-flex;
   flex-wrap: nowrap;
@@ -336,9 +335,9 @@ export default {
   }
 }
 
-@media (prefers-reduced-motion) {
+@media (prefers-reduced-motion: no-preference), (update: fast) {
   .base-button {
-    transition: none;
+    transition: all 0.2s ease-out;
   }
 }
 

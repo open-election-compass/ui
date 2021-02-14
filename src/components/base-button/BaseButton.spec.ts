@@ -35,7 +35,7 @@ describe('BaseButton', () => {
   });
 
   it('can render an icon after the caption', async () => {
-    await wrapper.setProps({ left: 'check' });
+    await wrapper.setProps({ right: 'check' });
     expect(wrapper.findComponent(Icon).exists()).toBe(true);
   });
 
