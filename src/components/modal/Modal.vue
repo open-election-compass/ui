@@ -1,0 +1,278 @@
+<template>
+  <transition name="fade" :duration="{ enter: 300, leave: 200 }">
+    <div
+      v-if="visible"
+      class="modal"
+      :class="classes"
+      role="dialog"
+      aria-labelledby="modal__heading"
+      aria-describedby="modal__description"
+    >
+      <div class="modal__wrapper">
+        <div class="modal__overlay" @click="$emit('close')" />
+        <div class="modal__box">
+          <div class="modal__header" v-if="heading">
+            <Icon v-if="icon" :name="icon" class="modal__icon" :spin="icon === 'slash'" />
+            <h1 class="modal__heading">
+              {{ heading }}
+            </h1>
+            <p v-if="description" class="modal__description">
+              {{ description }}
+            </p>
+          </div>
+          <div
+            v-if="$slots.default"
+            ref="content"
+            v-scroll-lock="visible"
+            class="modal__content"
+          >
+            <slot />
+          </div>
+          <div class="modal__actions">
+            <BaseButton
+              v-for="button in (buttons || defaultButton)"
+              :key="button.eventName"
+              v-bind="button"
+              class="modal__action"
+              @click="button.eventName ? $emit(button.eventName) : () => {}"
+            >
+              {{ button.caption }}
+            </BaseButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</template>
+
+<script lang="js">
+import BaseButton from '@/components/base-button/BaseButton.vue';
+import Icon from '@/components/icon/Icon.vue';
+
+export default {
+  name: 'Modal',
+  components: {
+    BaseButton,
+    Icon,
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: true,
+    },
+    heading: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    buttons: {
+      type: Array,
+      default: null,
+    },
+    icon: {
+      type: String,
+      default: 'null',
+    },
+    width: {
+      type: String,
+      default: 'normal',
+      validator: (value) => ['slim', 'narrow', 'normal', 'wide'].includes(value),
+    },
+  },
+  computed: {
+    classes() {
+      return [
+        `modal--width-${this.width}`,
+      ];
+    },
+    defaultButton() {
+      return [
+        {
+          caption: this.$t('done'),
+          theme: 'primary',
+          eventName: 'close',
+        },
+      ];
+    },
+  },
+  i18n: {
+    messages: {
+      en: {
+        done: 'Done',
+      },
+      de: {
+        done: 'Fertig',
+      },
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+@import "@/styles/core";
+
+.modal__wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 400;
+  padding: 1rem;
+}
+
+.modal__overlay {
+  background-color: rgba(#FFF, 0.75);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.modal__box {
+  position: relative;
+  z-index: 30;
+  height: auto;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 24rem;
+  background-color: #FFF;
+  border-radius: $border-radius;
+  box-shadow: 0 2rem 8rem 0 rgba(#000, 0.25);
+  color: $theme-base-text;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.modal.modal--width-slim .modal__box {
+  max-width: 24rem;
+}
+.modal.modal--width-narrow .modal__box {
+  max-width: 40rem;
+}
+.modal.modal--width-normal .modal__box {
+  max-width: 60rem;
+}
+.modal.modal--width-wide .modal__box {
+  max-width: 90rem;
+}
+
+.modal__header {
+  padding: 1rem;
+  text-align: center;
+  flex: 1 0 auto;
+}
+
+.modal__icon {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  margin-right: 0.5em;
+}
+
+.modal__heading {
+  display: inline-block;
+  font-size: 1.5rem;
+  margin: 1rem 0 0 0;
+}
+
+.modal__description {
+  max-width: 40rem;
+  margin: 1rem auto;
+}
+
+.modal__content {
+  overflow-y: auto;
+  padding: 1rem;
+  flex: 1;
+  border-bottom: 2px solid $theme-base-border;
+}
+
+.modal__actions {
+  overflow: hidden;
+  padding: 1em;
+  flex-shrink: 0;
+}
+
+.modal__action {
+  width: 100%;
+  & + & {
+    margin-top: 0.5em;
+  }
+}
+
+@media (min-width: 40rem) {
+  .modal__icon {
+    font-size: 2rem;
+    margin-right: 0;
+  }
+
+  .modal__heading {
+    display: block;
+    font-size: 2rem;
+  }
+
+  .modal__header {
+    padding: 2rem;
+  }
+
+  .modal__content {
+    padding: 2rem;
+  }
+
+  .modal__actions {
+    padding: 2em;
+  }
+
+  .modal__action + .modal__action {
+    margin-top: 1em;
+  }
+}
+
+@media (min-width: 60rem) {
+  .modal__actions {
+    padding: 0 0.5em;
+    text-align: right;
+  }
+  .modal__action {
+    width: auto;
+    display: inline-block;
+    margin: 1em 0.5em;
+    text-align: left;
+    & + & {
+      margin-top: 0;
+    }
+  }
+
+  .modal__header {
+    padding: 2rem 2rem 1rem 2rem;
+  }
+
+  .modal__content {
+    padding: 2rem;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  .modal__overlay {
+    transition: opacity 0.3s ease-out;
+  }
+  .modal__box {
+    transition: opacity 0.15s ease-out, transform 0.3s ease-out;
+  }
+}
+.fade-enter, .fade-leave-to {
+  .modal__overlay {
+    opacity: 0;
+  }
+  .modal__box {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+</style>

@@ -28,3 +28,10 @@ npm run test
 ```
 npm run lint
 ```
+
+## Usage
+
+### Peer dependencies
+
+- FieldSelect: [VueI18n](https://kazupon.github.io/vue-i18n/)
+- Modal: [v-scroll-lock](https://github.com/phegman/v-scroll-lock)
