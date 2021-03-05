@@ -23,7 +23,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "build": "vue-cli-service build --target lib --name OpenElectionCompassUI --filename open-election-compass-ui src/main.ts && unlink dist/demo.html",
+    "build": "vue-cli-service build --target lib --name OpenElectionCompassUI --formats commonjs,umd-min --filename open-election-compass-ui src/main.ts && unlink dist/demo.html",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "dev": "npm run storybook",
