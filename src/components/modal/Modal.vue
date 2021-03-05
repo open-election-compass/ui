@@ -46,9 +46,12 @@
 </template>
 
 <script lang="js">
-import BaseButton from '@/components/base-button/BaseButton.vue';
-import Icon from '@/components/icon/Icon.vue';
+import BaseButton from '../base-button/BaseButton.vue';
+import Icon from '../icon/Icon.vue';
 
+/**
+ * Wraps content in a modal that can be hidden and shown programmatically.
+ */
 export default {
   name: 'Modal',
   components: {
@@ -56,25 +59,49 @@ export default {
     Icon,
   },
   props: {
+    /**
+     * Wether the modal is visible.
+     */
     visible: {
       type: Boolean,
       default: true,
     },
+
+    /**
+     * The heading of the modal.
+     */
     heading: {
       type: String,
       required: true,
     },
+
+    /**
+     * The description of the modal, appearing below the heading.
+     */
     description: {
       type: String,
     },
+
+    /**
+     * An array of actions (buttons) that appear below the modals content. By default, contains a
+     * simple done-button that emits the close-event.
+     */
     buttons: {
       type: Array,
       default: null,
     },
+
+    /**
+     * An icon shown above the modal's heading.
+     */
     icon: {
       type: String,
       default: 'null',
     },
+
+    /**
+     * The width of the modal.
+     */
     width: {
       type: String,
       default: 'normal',
