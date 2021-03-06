@@ -1,8 +1,26 @@
-import { mount, Wrapper } from '@vue/test-utils';
+import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { ValidationProvider, extend } from 'vee-validate';
+// eslint-disable-next-line
+// @ts-ignore
+import { alpha, email, integer, length, max, min, regex, required } from 'vee-validate/dist/rules.umd'; // eslint-disable-line
+
 import FieldInput from './FieldInput.vue';
+
+extend('alpha', alpha);
+extend('email', email);
+extend('integer', integer);
+extend('length', length);
+extend('max', max);
+extend('min', min);
+extend('regex', regex);
+extend('required', required);
+
+const localVue = createLocalVue();
+localVue.component('ValidationProvider', ValidationProvider);
 
 function factory(name: string, type: string, rules = 'required', value = ''): Wrapper<Vue> {
   return mount(FieldInput, {
+    localVue,
     propsData: {
       alias: name.toLowerCase(),
       name,

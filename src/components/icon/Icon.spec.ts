@@ -1,10 +1,42 @@
 import { mount } from '@vue/test-utils';
 import Icon from './Icon.vue';
 
+const FontAwesomeIcon = {
+  template: `
+    <span>
+      <svg
+        :class="{
+          'icon': true,
+          'fa-spin': spin,
+          'fa-fw': fixedWidth
+        }"
+      >
+        <path />
+      </svg>
+    </span>
+  `,
+  props: {
+    name: {
+      type: String,
+    },
+    spin: {
+      type: Boolean,
+      default: false,
+    },
+    fixedWidth: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+
 function factory() {
   return mount(Icon, {
     propsData: {
       name: 'check',
+    },
+    stubs: {
+      FontAwesomeIcon,
     },
   });
 }

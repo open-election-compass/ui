@@ -33,14 +33,6 @@
 </template>
 
 <script lang="js">
-import { ValidationProvider, extend } from 'vee-validate';
-
-import { max, min, required } from 'vee-validate/dist/rules.umd';
-
-extend('max', max);
-extend('min', min);
-extend('required', required);
-
 /**
  * Renders a textarea together with a label, description and validation.
  */
@@ -119,9 +111,6 @@ export default {
         }
       });
     },
-  },
-  components: {
-    ValidationProvider,
   },
 };
 </script>

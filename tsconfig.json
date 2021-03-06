@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "vee-validate"
     ],
     "paths": {
       "@/*": [
@@ -33,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/components/fields/input/FieldInput.spec.js"  ],
   "exclude": [
     "node_modules"
   ]

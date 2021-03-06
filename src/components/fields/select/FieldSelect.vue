@@ -42,18 +42,15 @@
 </template>
 
 <script>
-import { ValidationProvider, extend } from 'vee-validate';
-import { oneOf, required } from 'vee-validate/dist/rules.umd';
-import Icon from '@/components/icon/Icon.vue';
-
-extend('oneOf', oneOf);
-extend('required', required);
-
+import Icon from '../../icon/Icon.vue';
 /**
  * Renders a select field together with a label, description and validation.
  */
 export default {
   name: 'FieldSelect',
+  components: {
+    Icon,
+  },
   data() {
     return {
       cache: null,
@@ -67,10 +64,6 @@ export default {
     value(value) {
       this.cache = value || null;
     },
-  },
-  components: {
-    ValidationProvider,
-    Icon,
   },
   model: {
     prop: 'value',

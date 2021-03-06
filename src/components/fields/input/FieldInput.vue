@@ -34,21 +34,6 @@
 </template>
 
 <script lang="js">
-import { ValidationProvider, extend } from 'vee-validate';
-
-import {
-  alpha, email, integer, length, max, min, regex, required,
-} from 'vee-validate/dist/rules.umd';
-
-extend('alpha', alpha);
-extend('email', email);
-extend('integer', integer);
-extend('length', length);
-extend('max', max);
-extend('min', min);
-extend('regex', regex);
-extend('required', required);
-
 /**
  * Renders a textual input field, like text, email, number, etc. together with a label, description
  * and validation.
@@ -138,9 +123,6 @@ export default {
         }
       });
     },
-  },
-  components: {
-    ValidationProvider,
   },
 };
 </script>

@@ -1,8 +1,4 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
 import FieldSelect from './FieldSelect.vue';
-
-Vue.use(VueI18n);
 
 export default {
   title: 'Elements/Fields/FieldSelect',

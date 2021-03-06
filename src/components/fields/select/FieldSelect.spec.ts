@@ -1,8 +1,24 @@
-import { mount, Wrapper } from '@vue/test-utils';
+import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { ValidationProvider, extend } from 'vee-validate';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { oneOf, required } from 'vee-validate/dist/rules.umd';
 import FieldSelect from './FieldSelect.vue';
+
+extend('oneOf', oneOf);
+extend('required', required);
+
+const localVue = createLocalVue();
+localVue.component('ValidationProvider', ValidationProvider);
+
+const Icon = {
+  template: '<span class="icon" />',
+  props: ['name'],
+};
 
 function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
   return mount(FieldSelect, {
+    localVue,
     mocks: {
       $t: (msg: string) => msg,
     },
@@ -20,6 +36,9 @@ function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
       ],
       value,
       description: `Description of ${name}`,
+    },
+    stubs: {
+      Icon,
     },
   });
 }

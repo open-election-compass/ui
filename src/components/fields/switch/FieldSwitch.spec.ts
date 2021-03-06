@@ -1,8 +1,19 @@
-import { mount, Wrapper } from '@vue/test-utils';
+import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { ValidationProvider, extend } from 'vee-validate';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { oneOf, required } from 'vee-validate/dist/rules.umd';
 import FieldSwitch from './FieldSwitch.vue';
+
+extend('oneOf', oneOf);
+extend('required', required);
+
+const localVue = createLocalVue();
+localVue.component('ValidationProvider', ValidationProvider);
 
 function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
   return mount(FieldSwitch, {
+    localVue,
     propsData: {
       alias: name.toLowerCase(),
       name,

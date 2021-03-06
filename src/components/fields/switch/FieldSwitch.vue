@@ -47,13 +47,6 @@
 </template>
 
 <script>
-import { ValidationProvider, extend } from 'vee-validate';
-
-import { oneOf, required } from 'vee-validate/dist/rules.umd';
-
-extend('oneOf', oneOf);
-extend('required', required);
-
 /**
  * Renders a radio group but in a switch-like design.
  */
@@ -126,9 +119,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  components: {
-    ValidationProvider,
   },
   methods: {
     publish() {

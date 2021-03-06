@@ -15,11 +15,23 @@
         <transition name="icon">
           <!-- Additional div needed because we cannot apply two animations to the same element -->
           <div class="icon" v-if="status === 'pending'">
-            <Icon key="pending" name="slash" monospace spinning />
+            <Icon key="pending" ref="pending-icon" name="slash" monospace spinning />
           </div>
-          <Icon key="success" v-else-if="status === 'success'" name="check" monospace />
-          <Icon key="error" v-else-if="status === 'error'" name="times" monospace />
-          <Icon key="icon" v-else :name="left ? left : right" monospace />
+          <Icon
+            key="success"
+            ref="success-icon"
+            v-else-if="status === 'success'"
+            name="check"
+            monospace
+          />
+          <Icon
+            key="error"
+            ref="error-icon"
+            v-else-if="status === 'error'"
+            name="times"
+            monospace
+          />
+          <Icon key="icon" ref="icon" v-else :name="left ? left : right" monospace />
         </transition>
       </span>
       <span

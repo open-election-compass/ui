@@ -1,6 +1,18 @@
 import { shallowMount, Wrapper } from '@vue/test-utils';
 import AsyncButton from './AsyncButton.vue';
-import Icon from '../icon/Icon.vue';
+
+const Icon = {
+  template: '<span class="icon" />',
+  props: {
+    name: {
+      type: String,
+    },
+    spinning: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 
 describe('AsyncButton', () => {
   let wrapper: Wrapper<Vue>;
@@ -57,7 +69,7 @@ describe('AsyncButton', () => {
 
   it('can render an icon after the caption', async () => {
     await wrapper.setProps({ right: 'check' });
-    expect(wrapper.findComponent(Icon).exists()).toBe(true);
+    expect(wrapper.findComponent({ ref: 'icon' }).exists()).toBe(true);
   });
 
   it('uses the default slot as the caption', () => {
@@ -149,7 +161,7 @@ describe('AsyncButton', () => {
 
   it('shows special icons to indicate pending, success and errors while executing the action', async () => {
     const button = wrapper.find('button.async-button');
-    expect(wrapper.find('.async-button__icon .icon').props('name')).toBe('angle-right');
+    expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
 
     // Successful action
     wrapper.setProps({
@@ -159,14 +171,14 @@ describe('AsyncButton', () => {
     });
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon .icon').props('name')).toBe('slash');
-    expect(wrapper.find('.async-button__icon .icon .icon').props('spinning')).toBe(true);
+    expect(wrapper.getComponent({ ref: 'pending-icon' }).props('name')).toBe('slash');
+    expect(wrapper.getComponent({ ref: 'pending-icon' }).props('spinning')).toBe(true);
     jest.runAllTimers();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon').props('name')).toBe('check');
+    expect(wrapper.getComponent({ ref: 'success-icon' }).props('name')).toBe('check');
     jest.runAllTimers();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon').props('name')).toBe('angle-right');
+    expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
 
     // Unsuccessful action
     wrapper.setProps({
@@ -176,14 +188,14 @@ describe('AsyncButton', () => {
     });
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon .icon').props('name')).toBe('slash');
-    expect(wrapper.find('.async-button__icon .icon .icon').props('spinning')).toBe(true);
+    expect(wrapper.getComponent({ ref: 'pending-icon' }).props('name')).toBe('slash');
+    expect(wrapper.getComponent({ ref: 'pending-icon' }).props('spinning')).toBe(true);
     jest.runAllTimers();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon').props('name')).toBe('times');
+    expect(wrapper.getComponent({ ref: 'error-icon' }).props('name')).toBe('times');
     jest.runAllTimers();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.async-button__icon .icon').props('name')).toBe('angle-right');
+    expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
   });
 
   it('shows error messages in a modal', async () => {

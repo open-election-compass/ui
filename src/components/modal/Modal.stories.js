@@ -1,8 +1,4 @@
-import VScrollLock from 'v-scroll-lock';
-import Vue from 'vue';
 import Modal from './Modal.vue';
-
-Vue.use(VScrollLock);
 
 export default {
   title: 'Elements/Modal',
@@ -26,7 +22,7 @@ export default {
     icon: {
       name: 'Icon',
       control: 'text',
-      default: 'check',
+      defaultValue: 'check',
     },
     width: {
       name: 'Width',

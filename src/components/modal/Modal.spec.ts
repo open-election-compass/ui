@@ -2,7 +2,11 @@ import { createLocalVue, shallowMount, Wrapper } from '@vue/test-utils';
 import VScrollLock from 'v-scroll-lock';
 import Modal from './Modal.vue';
 import BaseButton from '../base-button/BaseButton.vue';
-import Icon from '../icon/Icon.vue';
+
+const Icon = {
+  template: '<span class="icon" />',
+  props: ['name'],
+};
 
 describe('Modal', () => {
   let wrapper: Wrapper<Vue>;
