@@ -67,6 +67,26 @@ export default {
     padding: 1em;
     cursor: pointer;
     user-select: none;
+    &:hover, &:focus {
+      outline: 0;
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (min-width: 40rem) {
+  .accordion-list {
+    details {
+      &[open] {
+        padding: 0 2rem 2rem 2rem;
+        summary {
+          margin: 0 -2rem;
+        }
+      }
+    }
+    summary {
+      padding: 2em;
+    }
   }
 }
 </style>
