@@ -29,6 +29,15 @@ export default {
       name: 'Width',
       control: { type: 'radio', options: ['slim', 'narrow', 'normal', 'wide'] },
     },
+    buttons: {
+      name: 'Buttons',
+    },
+    noPadding: {
+      name: 'No Padding',
+      control: 'boolean',
+      defaultValue: false,
+      description: 'Don\'t add padding to the modal content.',
+    },
   },
 };
 
