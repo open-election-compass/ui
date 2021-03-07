@@ -66,6 +66,7 @@ export default {
     font-weight: bold;
     padding: 1em;
     cursor: pointer;
+    user-select: none;
   }
 }
 </style>
