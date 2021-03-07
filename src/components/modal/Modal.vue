@@ -152,103 +152,105 @@ export default {
 <style lang="scss">
 @import "@/styles/core";
 
-.modal__wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 400;
-  padding: 1rem;
-}
-
-.modal__overlay {
-  background-color: rgba(#FFF, 0.75);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.modal__box {
-  position: relative;
-  z-index: 30;
-  height: auto;
-  max-height: 90vh;
-  width: 100%;
-  max-width: 24rem;
-  background-color: #FFF;
-  border-radius: $border-radius;
-  box-shadow: 0 2rem 8rem 0 rgba(#000, 0.25);
-  color: $theme-base-text;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-}
-.modal.modal--width-slim .modal__box {
-  max-width: 24rem;
-}
-.modal.modal--width-narrow .modal__box {
-  max-width: 40rem;
-}
-.modal.modal--width-normal .modal__box {
-  max-width: 60rem;
-}
-.modal.modal--width-wide .modal__box {
-  max-width: 90rem;
-}
-.modal.modal--no-padding .modal__content {
-  padding: 0
-}
-
-.modal__header {
-  padding: 1rem;
-  text-align: center;
-  flex: 1 0 auto;
-}
-
-.modal__icon {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-  margin-right: 0.5em;
-}
-
-.modal__heading {
-  display: inline-block;
-  font-size: 1.5rem;
-  margin: 1rem 0 0 0;
-}
-
-.modal__description {
-  max-width: 40rem;
-  margin: 1rem auto;
-}
-
-.modal__content {
-  overflow-y: auto;
-  padding: 1rem;
-  flex: 1;
-  border-bottom: 2px solid $theme-base-border;
-  .accordion-list details:first-of-type,
-  .accordion-list details:last-of-type {
-    border-radius: 0;
+.modal {
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 400;
+    padding: 1rem;
   }
-}
 
-.modal__actions {
-  overflow: hidden;
-  padding: 1em;
-  flex-shrink: 0;
-}
+  &__overlay {
+    background-color: rgba(#FFF, 0.75);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 
-.modal__action {
-  width: 100%;
-  & + & {
-    margin-top: 0.5em;
+  &__box {
+    position: relative;
+    z-index: 30;
+    height: auto;
+    max-height: 90vh;
+    width: 100%;
+    max-width: 24rem;
+    background-color: #FFF;
+    border-radius: $border-radius;
+    box-shadow: 0 2rem 8rem 0 rgba(#000, 0.25);
+    color: $theme-base-text;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  &.modal--width-slim .modal__box {
+    max-width: 24rem;
+  }
+  &.modal--width-narrow .modal__box {
+    max-width: 40rem;
+  }
+  &.modal--width-normal .modal__box {
+    max-width: 60rem;
+  }
+  &.modal--width-wide .modal__box {
+    max-width: 90rem;
+  }
+
+  &__header {
+    padding: 1rem;
+    text-align: center;
+    flex: 1 0 auto;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-right: 0.5em;
+  }
+
+  &__heading {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin: 1rem 0 0 0;
+  }
+
+  &__description {
+    max-width: 40rem;
+    margin: 1rem auto;
+  }
+
+  &__content {
+    overflow-y: auto;
+    padding: 1rem;
+    flex: 1;
+    border-bottom: 2px solid $theme-base-border;
+    .accordion-list details:first-of-type,
+    .accordion-list details:last-of-type {
+      border-radius: 0;
+    }
+  }
+  &.modal--no-padding .modal__content {
+    padding: 0
+  }
+
+  &__actions {
+    overflow: hidden;
+    padding: 1em;
+    flex-shrink: 0;
+  }
+
+  &__action {
+    width: 100%;
+    & + & {
+      margin-top: 0.5em;
+    }
   }
 }
 
@@ -312,6 +314,7 @@ export default {
     transition: opacity 0.15s ease-out, transform 0.3s ease-out;
   }
 }
+
 .fade-enter, .fade-leave-to {
   .modal__overlay {
     opacity: 0;
