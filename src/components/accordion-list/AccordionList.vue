@@ -51,11 +51,9 @@ export default {
     }
     &:first-of-type {
       border-radius: $border-radius $border-radius 0 0;
-      margin-top: 1rem;
     }
     &:last-of-type {
       border-radius: 0 0 $border-radius $border-radius;
-      margin-bottom: 1rem;
     }
     &[open] {
       padding: 0 1rem 1rem 1rem;

@@ -92,4 +92,12 @@ describe('Modal', () => {
     expect(wrapper.findAll('.modal__actions button').at(0).text()).toBe('foo');
     expect(wrapper.findAll('.modal__actions button').at(1).text()).toBe('bar');
   });
+
+  it('doesn\'t add padding to the content when asked to', async () => {
+    expect(wrapper.find('.modal').classes('modal--no-padding')).toBe(false);
+    await wrapper.setProps({
+      noPadding: true,
+    });
+    expect(wrapper.find('.modal').classes('modal--no-padding')).toBe(true);
+  });
 });

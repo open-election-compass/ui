@@ -107,12 +107,24 @@ export default {
       default: 'normal',
       validator: (value) => ['slim', 'narrow', 'normal', 'wide'].includes(value),
     },
+
+    /**
+     * Don't add padding to the modal content.
+     */
+    noPadding: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
-      return [
+      const classes = [
         `modal--width-${this.width}`,
       ];
+      if (this.noPadding) {
+        classes.push('modal--no-padding');
+      }
+      return classes;
     },
     defaultButton() {
       return [
@@ -189,6 +201,9 @@ export default {
 .modal.modal--width-wide .modal__box {
   max-width: 90rem;
 }
+.modal.modal--no-padding .modal__content {
+  padding: 0
+}
 
 .modal__header {
   padding: 1rem;
@@ -218,6 +233,10 @@ export default {
   padding: 1rem;
   flex: 1;
   border-bottom: 2px solid $theme-base-border;
+  .accordion-list details:first-of-type,
+  .accordion-list details:last-of-type {
+    border-radius: 0;
+  }
 }
 
 .modal__actions {
