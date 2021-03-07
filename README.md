@@ -17,6 +17,7 @@ npm i @open-election-compass
 ```js
 import '@open-election-compass/ui/dist/open-election-compass-ui.css';
 import {
+  AccordionList,
   AsyncButton,
   BaseButton,
   FieldInput,
@@ -28,6 +29,7 @@ import {
 } from '@open-election-compass/ui';
 
 // Install OpenElectionCompass UI
+Vue.component('AccordionList', AccordionList);
 Vue.component('AsyncButton', AsyncButton);
 Vue.component('BaseButton', BaseButton);
 Vue.component('FieldInput', FieldInput);
