@@ -231,13 +231,13 @@ export default {
     padding: 1rem;
     flex: 1;
     border-bottom: 2px solid $theme-base-border;
+  }
+  &.modal--no-padding .modal__content {
+    padding: 0;
     .accordion-list details:first-of-type,
     .accordion-list details:last-of-type {
       border-radius: 0;
     }
-  }
-  &.modal--no-padding .modal__content {
-    padding: 0
   }
 
   &__actions {
