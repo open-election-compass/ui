@@ -1,0 +1,73 @@
+<template>
+  <div class="accordion-list">
+    <details
+      v-for="(item, index) in items"
+      :key="item.alias"
+      class="accordion-list__item"
+      :open="openFirst && index === 0"
+    >
+      <summary>{{ item.caption }}</summary>
+      <slot :name="item.alias" />
+    </details>
+  </div>
+</template>
+
+<script lang="js">
+/**
+ * Renders an accordion using the elements details and summary.
+ */
+export default {
+  name: 'AccordionList',
+  props: {
+    /**
+     * List of items, each with an alias used for the slot name and a caption used for the summary.
+     */
+    items: {
+      type: Array,
+      required: true,
+    },
+
+    /**
+     * Wether to open the first item in the list by default.
+     */
+    openFirst: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+@import '~@/styles/core';
+
+.accordion-list {
+  details {
+    background: $theme-neutral-background;
+    color: $theme-neutral-text;
+    overflow: hidden;
+    & + details {
+      border-top: 2px solid $theme-neutral-border;
+    }
+    &:first-of-type {
+      border-radius: $border-radius $border-radius 0 0;
+      margin-top: 1rem;
+    }
+    &:last-of-type {
+      border-radius: 0 0 $border-radius $border-radius;
+      margin-bottom: 1rem;
+    }
+    &[open] {
+      padding: 0 1rem 1rem 1rem;
+      summary {
+        margin: 0 -1rem;
+      }
+    }
+  }
+  summary {
+    font-weight: bold;
+    padding: 1em;
+    cursor: pointer;
+  }
+}
+</style>

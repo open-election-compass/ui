@@ -2,6 +2,7 @@
 // @ts-ignore
 import Styles from './styles/main.scss';
 
+import AccordionList from './components/accordion-list/AccordionList.vue';
 import AsyncButton from './components/async-button/AsyncButton.vue';
 import BaseButton from './components/base-button/BaseButton.vue';
 import Icon from './components/icon/Icon.vue';
@@ -14,6 +15,7 @@ import Modal from './components/modal/Modal.vue';
 export {
   Styles,
 
+  AccordionList,
   AsyncButton,
   BaseButton,
   Icon,
