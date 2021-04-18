@@ -24,6 +24,8 @@
         :id="`field-${alias}`"
         class="field-input__input"
         :placeholder="placeholder"
+        :autocomplete="autocomplete"
+        :readonly="readonly"
       />
       <small v-if="errors.length < 1" class="field-input__description">
         <slot name="description">{{ description }}</slot>
@@ -110,6 +112,14 @@ export default {
     description: {
       type: String,
       default: '',
+    },
+    autocomplete: {
+      type: String,
+      default: undefined,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

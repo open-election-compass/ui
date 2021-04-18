@@ -98,4 +98,14 @@ describe('FieldSelect', () => {
     expect(wrapper.find('.field-select__description').exists()).toBe(false);
     expect(wrapper.find('.field-select__error').exists()).toBe(true);
   });
+
+  it('passes properties on (readonly)', async () => {
+    const wrapper = await factory('Doctor');
+    expect(wrapper.find('select').attributes('readonly')).toBe(undefined);
+    wrapper.setProps({
+      readonly: true,
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('select').attributes('readonly')).toBe('readonly');
+  });
 });

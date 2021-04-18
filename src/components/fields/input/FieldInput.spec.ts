@@ -89,4 +89,17 @@ describe('FieldInput', () => {
     expect(wrapper.find('.field-input__description').exists()).toBe(false);
     expect(wrapper.find('.field-input__error').exists()).toBe(true);
   });
+
+  it('passes properties on (autocomplete, readonly)', async () => {
+    const wrapper = await factory('First Name', 'text');
+    expect(wrapper.find('input').attributes('autocomplete')).toBe(undefined);
+    expect(wrapper.find('input').attributes('readonly')).toBe(undefined);
+    wrapper.setProps({
+      autocomplete: 'name',
+      readonly: true,
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('input').attributes('autocomplete')).toBe('name');
+    expect(wrapper.find('input').attributes('readonly')).toBe('readonly');
+  });
 });

@@ -23,6 +23,7 @@
         :name="alias"
         :id="`field-${alias}`"
         class="field-select__select"
+        :readonly="readonly"
       >
         <option :value="null" disabled>{{ $t('choose') }}</option>
         <option
@@ -114,6 +115,10 @@ export default {
     description: {
       type: String,
       default: '',
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

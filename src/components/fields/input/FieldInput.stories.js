@@ -39,6 +39,14 @@ export default {
       name: 'Description',
       control: { type: 'text' },
     },
+    autocomplete: {
+      name: 'Autocomplete',
+      control: { type: 'text' },
+    },
+    readonly: {
+      name: 'Readonly',
+      control: { type: 'boolean' },
+    },
   },
 };
 

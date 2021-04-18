@@ -29,6 +29,7 @@
             :id="`field-${alias}-${button.value}`"
             class="field-switch__input"
             type="radio"
+            :readonly="readonly"
           />
           <label
             class="field-switch__button"
@@ -118,6 +119,10 @@ export default {
     description: {
       type: String,
       default: '',
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

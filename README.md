@@ -122,12 +122,6 @@ We develop the components in this package in isolation using [Storybook](https:/
 npm run dev
 ```
 
-### Compile and minify for production
-
-```sh
-npm run build
-```
-
 ### Run your unit tests
 
 ```sh
@@ -138,4 +132,10 @@ npm run test
 
 ```sh
 npm run lint
+```
+
+### Compile and minify for production
+
+```sh
+npm run build
 ```

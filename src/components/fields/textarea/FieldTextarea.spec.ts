@@ -77,4 +77,14 @@ describe('FieldTextarea', () => {
     expect(wrapper.find('.field-textarea__description').exists()).toBe(false);
     expect(wrapper.find('.field-textarea__error').exists()).toBe(true);
   });
+
+  it('passes properties on (readonly)', async () => {
+    const wrapper = await factory('Message');
+    expect(wrapper.find('textarea').attributes('readonly')).toBe(undefined);
+    wrapper.setProps({
+      readonly: true,
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('textarea').attributes('readonly')).toBe('readonly');
+  });
 });

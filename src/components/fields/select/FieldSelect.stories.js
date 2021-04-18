@@ -34,6 +34,10 @@ export default {
       name: 'Description',
       control: { type: 'text' },
     },
+    readonly: {
+      name: 'Readonly',
+      control: { type: 'boolean' },
+    },
   },
 };
 

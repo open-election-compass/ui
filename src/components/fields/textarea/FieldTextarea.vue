@@ -23,6 +23,7 @@
         :id="`field-${alias}`"
         class="field-textarea__textarea"
         :placeholder="placeholder"
+        :readonly="readonly"
       />
       <small v-if="errors.length < 1" class="field-textarea__description">
         <slot name="description">{{ description }}</slot>
@@ -98,6 +99,10 @@ export default {
     description: {
       type: String,
       default: '',
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
