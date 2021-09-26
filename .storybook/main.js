@@ -12,6 +12,12 @@ module.exports = {
   ],
   webpackFinal: async (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname, '../src/');
+    config.module.rules.push({
+      test: /\.ya?ml$/,
+      use: 'yaml-loader',
+      type: 'json'
+    });
+    config.resolve.extensions.push('.yaml');
     return config;
   },
 }

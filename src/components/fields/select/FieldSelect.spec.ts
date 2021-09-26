@@ -48,7 +48,7 @@ describe('FieldSelect', () => {
     const wrapper = await factory('Doctor');
     expect(wrapper.find('select').exists()).toBe(true);
     expect(wrapper.find('select option[disabled]').exists()).toBe(true);
-    expect(wrapper.find('select option[disabled]').text()).toBe('choose');
+    expect(wrapper.find('select option[disabled]').text()).toContain('choose');
   });
 
   it('selects an option from \'value\'', async () => {

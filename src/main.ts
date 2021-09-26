@@ -12,6 +12,9 @@ import FieldSwitch from './components/fields/switch/FieldSwitch.vue';
 import FieldTextarea from './components/fields/textarea/FieldTextarea.vue';
 import Modal from './components/modal/Modal.vue';
 
+import deLocale from './locales/de.yaml';
+import enLocale from './locales/en.yaml';
+
 export {
   Styles,
 
@@ -24,4 +27,7 @@ export {
   FieldSwitch,
   FieldTextarea,
   Modal,
+
+  deLocale,
+  enLocale,
 };

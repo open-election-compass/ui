@@ -25,7 +25,7 @@
         class="field-select__select"
         :readonly="readonly"
       >
-        <option :value="null" disabled>{{ $t('choose') }}</option>
+        <option :value="null" disabled>{{ $t('ui.fields.select.choose') }}</option>
         <option
           v-for="option in options"
           :key="option.value"
@@ -131,16 +131,6 @@ export default {
           this.$emit('change', '');
         }
       });
-    },
-  },
-  i18n: {
-    messages: {
-      en: {
-        choose: 'Please choose',
-      },
-      de: {
-        choose: 'Bitte wählen',
-      },
     },
   },
 };

@@ -129,21 +129,11 @@ export default {
     defaultButton() {
       return [
         {
-          caption: this.$t('done'),
+          caption: this.$t('ui.modal.done'),
           theme: 'primary',
           eventName: 'close',
         },
       ];
-    },
-  },
-  i18n: {
-    messages: {
-      en: {
-        done: 'Done',
-      },
-      de: {
-        done: 'Fertig',
-      },
     },
   },
 };

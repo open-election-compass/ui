@@ -9,6 +9,8 @@ import en from 'vee-validate/dist/locale/en.json';
 
 // VueI18n
 import VueI18n from 'vue-i18n';
+import deLocale from '../src/locales/de.yaml'
+import enLocale from '../src/locales/en.yaml'
 
 // VScrollLock
 import VScrollLock from 'v-scroll-lock';
@@ -65,6 +67,25 @@ Vue.component('ValidationProvider', ValidationProvider);
 
 // Configure VueI18n
 Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    de: deLocale,
+    en: enLocale,
+  },
+});
+
+// This looks like it doesn't do anything, but I kept it since it would technically be the standard
+// way to do this. What really did the trick though was the decorator.
+Vue.extend({ i18n });
+
+export const decorators = [(story) => ({
+  components: { story },
+  i18n,
+  template: '<story />'
+})];
 
 // Configure VScrollLock
 Vue.use(VScrollLock);

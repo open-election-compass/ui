@@ -70,7 +70,7 @@ describe('Modal', () => {
 
   it('adds a done button by default', async () => {
     expect(wrapper.findAll('.modal__actions button').length).toBe(1);
-    expect(wrapper.find('.modal__actions button').text()).toBe('done');
+    expect(wrapper.find('.modal__actions button').text()).toContain('done');
   });
 
   it('adds other buttons', async () => {

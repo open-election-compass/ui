@@ -43,11 +43,11 @@
     </button>
     <Modal
       :visible="error !== null"
-      :heading="$t('error.heading')"
+      :heading="$t('ui.async-button.error.heading')"
       icon="times"
       width="slim"
       :buttons="[{
-        caption: this.$t('error.okay-button'),
+        caption: this.$t('ui.async-button.error.okay-button'),
         theme: 'primary',
         eventName: 'close',
       }]"
@@ -179,22 +179,6 @@ export default {
       this.resetTimeout = setTimeout(() => {
         this.status = 'idle';
       }, delay);
-    },
-  },
-  i18n: {
-    messages: {
-      en: {
-        error: {
-          heading: 'An error occurred',
-          'okay-button': 'Okay',
-        },
-      },
-      de: {
-        error: {
-          heading: 'Ein Fehler ist aufgetreten',
-          'okay-button': 'Okay',
-        },
-      },
     },
   },
 };
