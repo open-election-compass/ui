@@ -19,8 +19,7 @@
     "url": "https://github.com/open-election-compass/ui.git"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
+    "access": "public"
   },
   "scripts": {
     "build": "vue-cli-service build --target lib --name OpenElectionCompassUI --formats commonjs,umd-min --filename open-election-compass-ui src/main.ts",
