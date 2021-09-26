@@ -53,7 +53,7 @@ describe('AsyncButton', () => {
     await wrapper.setProps({ disabled: true });
     const button = wrapper.find('button.async-button');
     expect((button.element as HTMLButtonElement).disabled).toBe(true);
-    expect(button.element.tabIndex).toBe(-1);
+    expect((button.element as HTMLButtonElement).tabIndex).toBe(-1);
     expect(button.classes('async-button--disabled')).toBe(true);
   });
 
@@ -117,12 +117,12 @@ describe('AsyncButton', () => {
       size: 'small',
     });
     expect(button.classes('async-button--size-small')).toBe(true);
-    expect(button.classes('async-button--size-big')).toBe(false);
+    expect(button.classes('async-button--size-normal')).toBe(false);
     await wrapper.setProps({
-      size: 'big',
+      size: 'normal',
     });
     expect(button.classes('async-button--size-small')).toBe(false);
-    expect(button.classes('async-button--size-big')).toBe(true);
+    expect(button.classes('async-button--size-normal')).toBe(true);
   });
 
   it('supports different text alignments', async () => {
@@ -142,7 +142,7 @@ describe('AsyncButton', () => {
   it('executes the given action when clicked', async () => {
     const button = wrapper.find('button.async-button');
     const action = jest.fn().mockResolvedValue(undefined);
-    wrapper.setProps({ action });
+    await wrapper.setProps({ action });
     button.trigger('click');
     expect(wrapper.emitted('click')).toHaveLength(1);
     expect(action).toHaveBeenCalledTimes(1);
@@ -181,7 +181,7 @@ describe('AsyncButton', () => {
     expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
 
     // Unsuccessful action
-    wrapper.setProps({
+    await wrapper.setProps({
       action: (): Promise<void> => new Promise((resolve, reject) => {
         setTimeout(() => reject(new Error('foo')), 2000);
       }),

@@ -20,7 +20,7 @@ describe('BaseButton', () => {
   it('can be disabled', async () => {
     await wrapper.setProps({ disabled: true });
     expect((wrapper.element as HTMLButtonElement).disabled).toBe(true);
-    expect(wrapper.element.tabIndex).toBe(-1);
+    expect((wrapper.element as HTMLButtonElement).tabIndex).toBe(-1);
     expect(wrapper.classes('base-button--disabled')).toBe(true);
   });
 
@@ -99,12 +99,12 @@ describe('BaseButton', () => {
       size: 'small',
     });
     expect(wrapper.classes('base-button--size-small')).toBe(true);
-    expect(wrapper.classes('base-button--size-big')).toBe(false);
+    expect(wrapper.classes('base-button--size-normal')).toBe(false);
     await wrapper.setProps({
-      size: 'big',
+      size: 'normal',
     });
     expect(wrapper.classes('base-button--size-small')).toBe(false);
-    expect(wrapper.classes('base-button--size-big')).toBe(true);
+    expect(wrapper.classes('base-button--size-normal')).toBe(true);
   });
 
   it('supports different text alignments', async () => {
