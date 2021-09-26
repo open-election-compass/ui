@@ -73,13 +73,25 @@ Vue.component('ValidationProvider', ValidationProvider);
 
 ### VueI18n
 
-[VueI18n](https://kazupon.github.io/vue-i18n/) allows some components come with their own
+[VueI18n](https://kazupon.github.io/vue-i18n/) allows some components to come with their own
 translations, e.g. FieldSelect adds a 'Please choose' option:
 
 ```js
 import VueI18n from 'vue-i18n';
+import { deLocale, enLocale } from '@open-election-compass/ui';
 
 Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    de: deLocale,
+    en: enLocale,
+  },
+});
+
+// pass i18n constant to Vue constructor ...
 ```
 
 ### VScrollLock
