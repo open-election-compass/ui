@@ -1,0 +1,10 @@
+pt:
+  async-button:
+    error:
+      heading: "Ocorreu um erro"
+      okay-button: "Ok"
+  fields:
+    select:
+      choose: "Por favor, escolha"
+  modal:
+    done: "Feito"

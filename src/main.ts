@@ -18,6 +18,8 @@ import enLocale from './locales/en.yaml';
 import esLocale from './locales/es.yaml';
 import idLocale from './locales/id.yaml';
 import itLocale from './locales/it.yaml';
+import plLocale from './locales/pl.yaml';
+import ptLocale from './locales/pt.yaml';
 
 export {
   Styles,
@@ -38,4 +40,6 @@ export {
   esLocale,
   idLocale,
   itLocale,
+  plLocale,
+  ptLocale,
 };
