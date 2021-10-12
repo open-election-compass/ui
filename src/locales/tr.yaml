@@ -1,10 +1,10 @@
 tr:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "Hata oluştu"
+      okay-button: "Tamam"
   fields:
     select:
-      choose: "Please choose"
+      choose: "Lütfen seçin"
   modal:
-    done: "Done"
+    done: "Tamamlandı"
