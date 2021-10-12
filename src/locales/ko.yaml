@@ -1,10 +1,10 @@
 ko:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "오류가 발생하였습니다."
+      okay-button: "좋습니다"
   fields:
     select:
-      choose: "Please choose"
+      choose: "선택해주세요"
   modal:
-    done: "Done"
+    done: "완료"
