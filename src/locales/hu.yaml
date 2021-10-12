@@ -1,10 +1,10 @@
 hu:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "Hiba történt"
+      okay-button: "Rendben"
   fields:
     select:
-      choose: "Please choose"
+      choose: "Kérlek, válassz"
   modal:
-    done: "Done"
+    done: "Kész"
