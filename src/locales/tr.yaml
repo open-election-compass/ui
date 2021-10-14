@@ -1,0 +1,10 @@
+tr:
+  async-button:
+    error:
+      heading: "Hata oluştu"
+      okay-button: "Tamam"
+  fields:
+    select:
+      choose: "Lütfen seçin"
+  modal:
+    done: "Tamamlandı"

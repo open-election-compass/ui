@@ -16,10 +16,13 @@ import arLocale from './locales/ar.yaml';
 import deLocale from './locales/de.yaml';
 import enLocale from './locales/en.yaml';
 import esLocale from './locales/es.yaml';
+import frLocale from './locales/fr.yaml';
+import huLocale from './locales/hu.yaml';
 import idLocale from './locales/id.yaml';
 import itLocale from './locales/it.yaml';
 import plLocale from './locales/pl.yaml';
 import ptLocale from './locales/pt.yaml';
+import trLocale from './locales/tr.yaml';
 
 export {
   Styles,
@@ -38,8 +41,11 @@ export {
   deLocale,
   enLocale,
   esLocale,
+  frLocale,
+  huLocale,
   idLocale,
   itLocale,
   plLocale,
   ptLocale,
+  trLocale,
 };
