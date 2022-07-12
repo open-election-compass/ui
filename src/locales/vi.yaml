@@ -1,10 +1,10 @@
 vi:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "Có lỗi xảy ra"
+      okay-button: "Được"
   fields:
     select:
-      choose: "Please choose"
+      choose: "Hãy chọn"
   modal:
-    done: "Done"
+    done: "Xong"
