@@ -1,0 +1,10 @@
+ha:
+  async-button:
+    error:
+      heading: "An samu matsala"
+      okay-button: "OK"
+  fields:
+    select:
+      choose: "Dan Allah zaɓa"
+  modal:
+    done: "Na gama"
