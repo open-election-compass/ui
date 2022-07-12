@@ -1,10 +1,10 @@
 sw:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "Hitilafu imetokea"
+      okay-button: "Sawa"
   fields:
     select:
-      choose: "Please choose"
+      choose: "Tafadhali chagua"
   modal:
-    done: "Done"
+    done: "Tayari"
