@@ -1,10 +1,10 @@
 uk:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "Виникла помилка"
+      okay-button: "Гаразд"
   fields:
     select:
-      choose: "Please choose"
+      choose: "Будь ласка, оберіть"
   modal:
-    done: "Done"
+    done: "Готово"
