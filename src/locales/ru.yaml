@@ -1,0 +1,10 @@
+ru:
+  async-button:
+    error:
+      heading: "Произошла ошибка"
+      okay-button: "Хорошо"
+  fields:
+    select:
+      choose: "Пожалуйста, выберите"
+  modal:
+    done: "Готово"
