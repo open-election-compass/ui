@@ -1,10 +1,10 @@
 ja:
   async-button:
     error:
-      heading: "An error occurred"
-      okay-button: "Okay"
+      heading: "エラーが発生しました"
+      okay-button: "OK"
   fields:
     select:
-      choose: "Please choose"
+      choose: "選択してください"
   modal:
-    done: "Done"
+    done: "完了"
