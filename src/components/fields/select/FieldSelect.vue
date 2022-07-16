@@ -1,69 +1,72 @@
 <template>
-  <ValidationProvider
-    :name="name"
-    :rules="rules"
-    v-slot="{ changed, errors }"
-    slim
-    ref="field"
+  <div
+    :class="{
+      'field-select': true,
+      'field-select--invalid': field.errors.value.length > 0,
+      'field-select--valid': field.errors.value.length <= 0 && field.meta.dirty,
+    }"
   >
-    <div
-      :class="{
-        'field-select': true,
-        'field-select--invalid': errors.length > 0,
-        'field-select--valid': errors.length <= 0 && changed,
-      }"
+    <label :for="alias" class="field-select__label">
+      {{ label }}
+    </label>
+    <IconDisplay name="angle-down" class="field-select__icon" />
+    <select
+      class="field-select__select"
+      :name="alias"
+      :id="`field-${alias}`"
+      :readonly="readonly"
+      v-model="field.value.value"
+      @blur="field.handleBlur"
+      @change="publish"
     >
-      <label :for="alias" class="field-select__label">
-        {{ label }}
-      </label>
-      <Icon name="angle-down" class="field-select__icon" />
-      <select
-        v-model="cache"
-        @change="publish()"
-        :name="alias"
-        :id="`field-${alias}`"
-        class="field-select__select"
-        :readonly="readonly"
-      >
-        <option :value="null" disabled>{{ $t('ui.fields.select.choose') }}</option>
-        <option
-          v-for="option in options"
-          :key="option.value"
-          :value="option.value"
-        >
-          {{ option.option }}
-        </option>
-      </select>
-      <small v-if="errors.length < 1" class="field-select__description">
-        <slot name="description">{{ description }}</slot>
-      </small>
-      <small v-else class="field-select__error">{{ errors[0] }}</small>
-    </div>
-  </ValidationProvider>
+      <option :value="null" disabled>{{ $t('ui.fields.select.choose') }}</option>
+      <option v-for="option in options" :key="option.value" :value="option.value">
+        {{ option.option }}
+      </option>
+    </select>
+    <small v-if="field.errors.value.length < 1" class="field-select__description">
+      <slot name="description">{{ description }}</slot>
+    </small>
+    <small v-else class="field-select__error">{{ field.errors.value[0] }}</small>
+  </div>
 </template>
 
-<script>
-import Icon from '../../icon/Icon.vue';
+<script lang="ts">
+import { defineComponent, toRef } from 'vue';
+import IconDisplay from '../../icon-display/IconDisplay.vue';
+import { useField, type ValidationResult } from 'vee-validate';
+
 /**
  * Renders a select field together with a label, description and validation.
  */
-export default {
+export default defineComponent({
   name: 'FieldSelect',
   components: {
-    Icon,
+    IconDisplay,
   },
   data() {
     return {
-      cache: null,
-      currentValidation: null,
+      currentValidation: null as null | Promise<void | ValidationResult>,
     };
   },
-  mounted() {
-    this.cache = this.value || null;
+  emits: ['change'],
+  setup(props) {
+    // Create Ref on alias. This is important because vee-validate needs to know if the field name
+    // changes.
+    const alias = toRef(props, 'alias');
+    const name = toRef(props, 'name');
+
+    // Create Field
+    return {
+      field: useField<string>(alias, props.rules, {
+        label: name,
+        initialValue: props.value,
+      }) as ReturnType<typeof useField>,
+    };
   },
   watch: {
     value(value) {
-      this.cache = value || null;
+      this.field.setValue(value);
     },
   },
   model: {
@@ -93,20 +96,21 @@ export default {
       required: true,
     },
     value: {
+      type: String,
       required: true,
     },
     /**
      * An array of options in this form: `{ value: string, option: string }`.
      */
     options: {
-      type: Array,
+      type: Array as () => { option: string; value: string }[],
       required: true,
     },
     /**
      * A set of vee-validate rules.
      */
     rules: {
-      type: [String, Object],
+      type: String,
       required: true,
     },
     /**
@@ -122,22 +126,22 @@ export default {
     },
   },
   methods: {
-    publish() {
-      this.currentValidation = this.$refs.field.validate(this.cache).then(({ valid }) => {
+    publish(): void {
+      this.currentValidation = this.field.validate().then((result: ValidationResult) => {
         this.currentValidation = null;
-        if (valid) {
-          this.$emit('change', this.cache);
+        if (result.valid && this.field.value.value !== null) {
+          this.$emit('change', this.field.value.value);
         } else {
           this.$emit('change', '');
         }
       });
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .field-select {
   position: relative;

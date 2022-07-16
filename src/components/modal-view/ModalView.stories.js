@@ -1,9 +1,9 @@
 import AccordionList from '../accordion-list/AccordionList.vue';
-import Modal from './Modal.vue';
+import ModalView from './ModalView.vue';
 
 export default {
-  title: 'Elements/Modal',
-  component: Modal,
+  title: 'Elements/ModalView',
+  component: ModalView,
   argTypes: {
     visible: {
       name: 'Visible?',
@@ -36,15 +36,16 @@ export default {
       name: 'No Padding',
       control: 'boolean',
       defaultValue: false,
-      description: 'Don\'t add padding to the modal content.',
+      description: "Don't add padding to the modal content.",
     },
   },
 };
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { AccordionList, Modal },
-  template: '<Modal v-bind="$props">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</Modal>',
+  components: { AccordionList, ModalView },
+  template:
+    '<Modal v-bind="$props">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</Modal>',
 });
 
 export const Slim = Template.bind({});
@@ -54,7 +55,7 @@ Slim.args = {
 
 export const WithAccordionList = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { AccordionList, Modal },
+  components: { AccordionList, ModalView },
   template: `
     <Modal v-bind="$props">
       <AccordionList

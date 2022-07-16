@@ -12,7 +12,7 @@
         <div class="modal__overlay" @click="$emit('close')" />
         <div class="modal__box">
           <div class="modal__header" v-if="heading">
-            <Icon v-if="icon" :name="icon" class="modal__icon" :spin="icon === 'slash'" />
+            <IconDisplay v-if="icon" :name="icon" class="modal__icon" :spin="icon === 'slash'" />
             <h1 class="modal__heading">
               {{ heading }}
             </h1>
@@ -20,17 +20,12 @@
               {{ description }}
             </p>
           </div>
-          <div
-            v-if="$slots.default"
-            ref="content"
-            v-scroll-lock="visible"
-            class="modal__content"
-          >
+          <div v-if="$slots.default" ref="content" class="modal__content">
             <slot />
           </div>
           <div class="modal__actions">
             <BaseButton
-              v-for="button in (buttons || defaultButton)"
+              v-for="button in buttons || defaultButton"
               :key="button.eventName"
               v-bind="button"
               class="modal__action"
@@ -45,18 +40,32 @@
   </transition>
 </template>
 
-<script lang="js">
-import BaseButton from '../base-button/BaseButton.vue';
-import Icon from '../icon/Icon.vue';
+<script lang="ts">
+import { defineComponent, type PropType, ref } from 'vue';
+import { useScrollLock } from '@vueuse/core';
+import BaseButton, { type BaseButtonProps } from '../base-button/BaseButton.vue';
+import IconDisplay from '../icon-display/IconDisplay.vue';
+
+interface BaseButtonPropsHelper extends BaseButtonProps {
+  caption: string;
+  eventName: string;
+}
 
 /**
  * Wraps content in a modal that can be hidden and shown programmatically.
  */
-export default {
-  name: 'Modal',
+export default defineComponent({
+  name: 'ModalView',
+  // TODO: emits: ['close'],
   components: {
     BaseButton,
-    Icon,
+    IconDisplay,
+  },
+  setup() {
+    const content = ref<HTMLElement | null>(null);
+    return {
+      isLocked: useScrollLock(content),
+    };
   },
   props: {
     /**
@@ -87,7 +96,7 @@ export default {
      * simple done-button that emits the close-event.
      */
     buttons: {
-      type: Array,
+      type: Array as () => (BaseButtonProps & { eventName: string; caption: string })[],
       default: null,
     },
 
@@ -95,17 +104,17 @@ export default {
      * An icon shown above the modal's heading.
      */
     icon: {
-      type: String,
-      default: 'null',
+      type: String as PropType<string | null>,
+      default: null,
     },
 
     /**
      * The width of the modal.
      */
     width: {
-      type: String,
+      type: String as PropType<'slim' | 'narrow' | 'normal' | 'wide'>,
       default: 'normal',
-      validator: (value) => ['slim', 'narrow', 'normal', 'wide'].includes(value),
+      validator: (value: string) => ['slim', 'narrow', 'normal', 'wide'].includes(value),
     },
 
     /**
@@ -116,31 +125,34 @@ export default {
       default: false,
     },
   },
+  mounted() {
+    this.$watch('visible', (visible: boolean) => {
+      this.isLocked = visible;
+    });
+  },
   computed: {
-    classes() {
-      const classes = [
-        `modal--width-${this.width}`,
-      ];
+    classes(): string[] {
+      const classes = [`modal--width-${this.width}`];
       if (this.noPadding) {
         classes.push('modal--no-padding');
       }
       return classes;
     },
-    defaultButton() {
+    defaultButton(): Partial<BaseButtonPropsHelper>[] {
       return [
         {
-          caption: this.$t('ui.modal.done'),
+          caption: this.$t('ui.modal.done') as string,
           theme: 'primary',
           eventName: 'close',
         },
       ];
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import "@/styles/core";
+@import '@/styles/core';
 
 .modal {
   &__wrapper {
@@ -157,7 +169,7 @@ export default {
   }
 
   &__overlay {
-    background-color: rgba(#FFF, 0.75);
+    background-color: rgba(#fff, 0.75);
     position: fixed;
     top: 0;
     right: 0;
@@ -172,7 +184,7 @@ export default {
     max-height: 90vh;
     width: 100%;
     max-width: 24rem;
-    background-color: #FFF;
+    background-color: #fff;
     border-radius: $border-radius;
     box-shadow: 0 2rem 8rem 0 rgba(#000, 0.25);
     color: $theme-base-text;
@@ -296,7 +308,8 @@ export default {
   }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   .modal__overlay {
     transition: opacity 0.3s ease-out;
   }
@@ -305,7 +318,8 @@ export default {
   }
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   .modal__overlay {
     opacity: 0;
   }

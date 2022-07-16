@@ -1,13 +1,14 @@
-import { shallowMount, Wrapper } from '@vue/test-utils';
+import { describe, it, beforeEach, expect } from 'vitest';
+import { shallowMount, VueWrapper } from '@vue/test-utils';
 import BaseButton from './BaseButton.vue';
-import Icon from '../icon/Icon.vue';
+import IconDisplay from '../icon-display/IconDisplay.vue';
 
 describe('BaseButton', () => {
-  let wrapper: Wrapper<Vue>;
+  let wrapper: VueWrapper;
   const options = {};
 
   beforeEach(() => {
-    wrapper = shallowMount(BaseButton, options);
+    wrapper = shallowMount(BaseButton, options) as VueWrapper;
   });
 
   it('renders a `button` or an `a` tag', async () => {
@@ -31,20 +32,23 @@ describe('BaseButton', () => {
 
   it('can render an icon before the caption', async () => {
     await wrapper.setProps({ left: 'check' });
-    expect(wrapper.findComponent(Icon).exists()).toBe(true);
+    expect(wrapper.findComponent(IconDisplay).exists()).toBe(true);
   });
 
   it('can render an icon after the caption', async () => {
     await wrapper.setProps({ right: 'check' });
-    expect(wrapper.findComponent(Icon).exists()).toBe(true);
+    expect(wrapper.findComponent(IconDisplay).exists()).toBe(true);
   });
 
   it('uses the default slot as the caption', () => {
-    wrapper = shallowMount(BaseButton, Object.assign(options, {
-      slots: {
-        default: 'Foo',
-      },
-    }));
+    wrapper = shallowMount(
+      BaseButton,
+      Object.assign(options, {
+        slots: {
+          default: 'Foo',
+        },
+      })
+    ) as VueWrapper;
     expect(wrapper.text()).toBe('Foo');
   });
 

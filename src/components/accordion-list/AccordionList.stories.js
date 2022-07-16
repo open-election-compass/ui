@@ -6,7 +6,8 @@ export default {
   argTypes: {
     items: {
       name: 'Items',
-      description: 'List of items, each with an alias used for the slot name and a caption used for the summary.',
+      description:
+        'List of items, each with an alias used for the slot name and a caption used for the summary.',
     },
     openFirst: {
       name: 'Open First Item',

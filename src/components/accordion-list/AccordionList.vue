@@ -12,18 +12,20 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 /**
  * Renders an accordion using the elements details and summary.
  */
-export default {
+export default defineComponent({
   name: 'AccordionList',
   props: {
     /**
      * List of items, each with an alias used for the slot name and a caption used for the summary.
      */
     items: {
-      type: Array,
+      type: Array as () => { alias: string; caption: string }[],
       required: true,
     },
 
@@ -35,11 +37,11 @@ export default {
       default: false,
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .accordion-list {
   details {
@@ -67,7 +69,8 @@ export default {
     padding: 1em;
     cursor: pointer;
     user-select: none;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       outline: 0;
       text-decoration: underline;
     }

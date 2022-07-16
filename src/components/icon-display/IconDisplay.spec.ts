@@ -1,5 +1,6 @@
+import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Icon from './Icon.vue';
+import IconDisplay from './IconDisplay.vue';
 
 const FontAwesomeIcon = {
   template: `
@@ -31,17 +32,19 @@ const FontAwesomeIcon = {
 };
 
 function factory() {
-  return mount(Icon, {
-    propsData: {
+  return mount(IconDisplay, {
+    props: {
       name: 'check',
     },
-    stubs: {
-      FontAwesomeIcon,
+    global: {
+      stubs: {
+        FontAwesomeIcon,
+      },
     },
   });
 }
 
-describe('Icon', () => {
+describe('IconDisplay', () => {
   it('renders a vector graphic', () => {
     const wrapper = factory();
     expect(wrapper.find('svg.icon path').exists()).toBe(true);

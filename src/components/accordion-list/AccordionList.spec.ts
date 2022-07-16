@@ -1,8 +1,9 @@
-import { shallowMount, Wrapper } from '@vue/test-utils';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { shallowMount, VueWrapper } from '@vue/test-utils';
 import AccordionList from './AccordionList.vue';
 
 describe('AccordionList', () => {
-  let wrapper: Wrapper<Vue>;
+  let wrapper: VueWrapper;
   const options = {
     propsData: {
       items: [
@@ -24,26 +25,26 @@ describe('AccordionList', () => {
 
   it('renders items using `details` and `summary` tags', async () => {
     expect(wrapper.findAll('details').length).toBe(3);
-    expect(wrapper.findAll('details').at(0).find('summary').text()).toBe('First');
-    expect(wrapper.findAll('details').at(1).find('summary').text()).toBe('Second');
-    expect(wrapper.findAll('details').at(2).find('summary').text()).toBe('Third');
+    expect(wrapper.findAll('details')[0].find('summary').text()).toBe('First');
+    expect(wrapper.findAll('details')[1].find('summary').text()).toBe('Second');
+    expect(wrapper.findAll('details')[2].find('summary').text()).toBe('Third');
   });
 
   it('adds slots inside the `details` elements', async () => {
-    expect(wrapper.findAll('details').at(0).find('p').text()).toBe('First Slot');
-    expect(wrapper.findAll('details').at(1).find('p').text()).toBe('Second Slot');
-    expect(wrapper.findAll('details').at(2).find('p').text()).toBe('Third Slot');
+    expect(wrapper.findAll('details')[0].find('p').text()).toBe('First Slot');
+    expect(wrapper.findAll('details')[1].find('p').text()).toBe('Second Slot');
+    expect(wrapper.findAll('details')[2].find('p').text()).toBe('Third Slot');
   });
 
   it('starts with the first item open, if asked to', async () => {
-    expect(wrapper.findAll('details').at(0).attributes('open')).toBe(undefined);
-    expect(wrapper.findAll('details').at(1).attributes('open')).toBe(undefined);
-    expect(wrapper.findAll('details').at(2).attributes('open')).toBe(undefined);
+    expect(wrapper.findAll('details')[0].attributes('open')).toBeUndefined();
+    expect(wrapper.findAll('details')[1].attributes('open')).toBeUndefined();
+    expect(wrapper.findAll('details')[2].attributes('open')).toBeUndefined();
     await wrapper.setProps({
       openFirst: true,
     });
-    expect(wrapper.findAll('details').at(0).attributes('open')).toBe('open');
-    expect(wrapper.findAll('details').at(1).attributes('open')).toBe(undefined);
-    expect(wrapper.findAll('details').at(2).attributes('open')).toBe(undefined);
+    expect(wrapper.findAll('details')[0]?.attributes().open).toBeDefined();
+    expect(wrapper.findAll('details')[1]?.attributes().open).toBeUndefined();
+    expect(wrapper.findAll('details')[2]?.attributes().open).toBeUndefined();
   });
 });

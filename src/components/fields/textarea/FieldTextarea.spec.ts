@@ -1,21 +1,15 @@
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import { ValidationProvider, extend } from 'vee-validate';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import { min, max, required } from 'vee-validate/dist/rules.umd';
+import { describe, it, expect } from 'vitest';
+import { mount, VueWrapper } from '@vue/test-utils';
+import { defineRule } from 'vee-validate';
+import { min, required } from '@vee-validate/rules';
+defineRule('min', min);
+defineRule('required', required);
+
 import FieldTextarea from './FieldTextarea.vue';
 
-extend('max', max);
-extend('min', min);
-extend('required', required);
-
-const localVue = createLocalVue();
-localVue.component('ValidationProvider', ValidationProvider);
-
-function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
+function factory(name: string, value = '', rules = 'required'): VueWrapper {
   return mount(FieldTextarea, {
-    localVue,
-    propsData: {
+    props: {
       alias: name.toLowerCase(),
       name,
       label: name,
@@ -23,7 +17,7 @@ function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
       value,
       description: `Description of ${name}`,
     },
-  });
+  }) as VueWrapper;
 }
 
 describe('FieldTextarea', () => {
@@ -32,7 +26,7 @@ describe('FieldTextarea', () => {
     expect(wrapper.find('textarea').exists()).toBe(true);
   });
 
-  it('fills the textarea with \'value\'', async () => {
+  it("fills the textarea with 'value'", async () => {
     const wrapper = await factory('Message', 'foo', 'required');
     expect((wrapper.find('textarea').element as any).value).toBe('foo');
     await wrapper.setProps({
@@ -61,6 +55,7 @@ describe('FieldTextarea', () => {
 
     // Valid input
     await wrapper.find('textarea').setValue('Hello there!');
+    await wrapper.find('textarea').trigger('change'); // trigger v-model
     await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[0][0]).toBe('Hello there!');
@@ -70,6 +65,7 @@ describe('FieldTextarea', () => {
 
     // Invalid input
     await wrapper.find('textarea').setValue('Nope');
+    await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[1][0]).toBe('');
@@ -85,6 +81,6 @@ describe('FieldTextarea', () => {
       readonly: true,
     });
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('textarea').attributes('readonly')).toBe('readonly');
+    expect(wrapper.find('textarea').attributes('readonly')).toBeDefined();
   });
 });

@@ -6,7 +6,7 @@
       :disabled="disabledOrBusy"
       :tabindex="disabledOrBusy ? -1 : tabindex"
       :type="type"
-      @click="onClick"
+      @click.stop="onClick($event)"
     >
       <span
         v-if="left || right"
@@ -15,69 +15,90 @@
         <transition name="icon">
           <!-- Additional div needed because we cannot apply two animations to the same element -->
           <div class="icon" v-if="status === 'pending'">
-            <Icon key="pending" ref="pending-icon" name="slash" monospace spinning />
+            <IconDisplay key="pending" ref="pending-icon" name="slash" monospace spinning />
           </div>
-          <Icon
+          <IconDisplay
             key="success"
             ref="success-icon"
             v-else-if="status === 'success'"
             name="check"
             monospace
           />
-          <Icon
+          <IconDisplay
             key="error"
             ref="error-icon"
             v-else-if="status === 'error'"
             name="times"
             monospace
           />
-          <Icon key="icon" ref="icon" v-else :name="left ? left : right" monospace />
+          <IconDisplay key="icon" ref="icon" v-else :name="left ? left : right" monospace />
         </transition>
       </span>
-      <span
-        v-if="$slots.default"
-        class="async-button__caption"
-      >
+      <span v-if="$slots.default" class="async-button__caption">
         <slot />
       </span>
     </button>
-    <Modal
+    <ModalView
       :visible="error !== null"
       :heading="$t('ui.async-button.error.heading')"
       icon="times"
       width="slim"
-      :buttons="[{
-        caption: this.$t('ui.async-button.error.okay-button'),
-        theme: 'primary',
-        eventName: 'close',
-      }]"
+      :buttons="[
+        {
+          caption: $t('ui.async-button.error.okay-button'),
+          theme: 'primary',
+          eventName: 'close',
+        },
+      ]"
       @close="error = null"
     >
       {{ error }}
-    </Modal>
+    </ModalView>
   </div>
 </template>
 
-<script lang="js">
-import Icon from '../icon/Icon.vue';
-import Modal from '../modal/Modal.vue';
+<script lang="ts">
+import { defineComponent, type PropType } from 'vue';
+import IconDisplay from '../icon-display/IconDisplay.vue';
+import ModalView from '../modal-view/ModalView.vue';
+
+export interface AsyncButtonProps {
+  action: () => Promise<unknown>;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  theme?:
+    | 'primary'
+    | 'positive'
+    | 'neutral'
+    | 'negative'
+    | 'white'
+    | 'primary-dark'
+    | 'transparent';
+  size?: 'small' | 'normal' | 'large';
+  textAlign?: 'left' | 'center';
+  left?: string;
+  right?: string;
+  disabled?: boolean;
+  tabindex: number;
+}
 
 /**
  * Renders a basic button with support for icons, themes and sizes. Will execute a given async
  * function on click, display a loading animation, indicate success or show an error message in a
  * modal.
  */
-export default {
+export default defineComponent({
   name: 'AsyncButton',
   components: {
-    Icon,
-    Modal,
+    IconDisplay,
+    ModalView,
   },
+  emits: ['click'],
   data() {
     return {
-      status: 'idle',
-      error: null,
-      resetTimeout: null,
+      status: 'idle' as 'idle' | 'pending' | 'error' | 'success',
+      error: null as null | string,
+      resetTimeout: null as null | ReturnType<typeof setTimeout>,
     };
   },
   props: {
@@ -86,16 +107,16 @@ export default {
      * animation and wait for the promise to resolve.
      */
     action: {
-      type: Function,
+      type: Function as PropType<() => Promise<unknown>>,
       required: true,
     },
     /**
      * The type of button.
      */
     type: {
-      type: String,
+      type: String as PropType<'button' | 'submit' | 'reset'>,
       default: 'button',
-      validator: (value) => ['button', 'submit', 'reset'].includes(value),
+      validator: (value: string) => ['button', 'submit', 'reset'].includes(value),
     },
     /**
      * The global theme to be used. Can indicate the purpose of the button.
@@ -103,9 +124,16 @@ export default {
     theme: {
       type: String,
       default: 'primary',
-      validator: (value) => [
-        'primary', 'positive', 'neutral', 'negative', 'white', 'primary-dark', 'transparent',
-      ].includes(value),
+      validator: (value: string) =>
+        [
+          'primary',
+          'positive',
+          'neutral',
+          'negative',
+          'white',
+          'primary-dark',
+          'transparent',
+        ].includes(value),
     },
     /**
      * The global size to be used.
@@ -113,12 +141,12 @@ export default {
     size: {
       type: String,
       default: 'normal',
-      validator: (value) => ['small', 'normal', 'large'].includes(value),
+      validator: (value: string) => ['small', 'normal', 'large'].includes(value),
     },
     textAlign: {
       type: String,
       default: 'center',
-      validator: (value) => ['left', 'center'].includes(value),
+      validator: (value: string) => ['left', 'center'].includes(value),
     },
     /**
      * The FontAwesome icon to be displayed left of the caption.
@@ -144,7 +172,7 @@ export default {
     },
   },
   computed: {
-    classes() {
+    classes(): string[] {
       const classes = [
         `async-button--theme-${this.theme}`,
         `async-button--size-${this.size}`,
@@ -155,22 +183,25 @@ export default {
       }
       return classes;
     },
-    disabledOrBusy() {
+    disabledOrBusy(): boolean {
       return this.disabled || this.status === 'pending';
     },
   },
   methods: {
-    onClick(event) {
+    onClick(event: MouseEvent) {
       this.$emit('click', event);
       this.status = 'pending';
-      this.action().then(() => {
-        this.status = 'success';
-        this.scheduleStatusReset();
-      }, (error) => {
-        this.status = 'error';
-        this.error = error.message;
-        this.scheduleStatusReset();
-      });
+      this.action().then(
+        () => {
+          this.status = 'success';
+          this.scheduleStatusReset();
+        },
+        (error: Error) => {
+          this.status = 'error';
+          this.error = error.message;
+          this.scheduleStatusReset();
+        }
+      );
     },
     scheduleStatusReset(delay = 3000) {
       if (this.resetTimeout) {
@@ -181,11 +212,11 @@ export default {
       }, delay);
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .async-button {
   font-weight: 500;
@@ -324,7 +355,7 @@ export default {
   }
 
   &.async-button--theme-transparent:hover {
-    border-color: #D5D5D5;
+    border-color: #d5d5d5;
     box-shadow: $shadow-hover;
   }
 
@@ -404,14 +435,14 @@ export default {
     transition: all 0.2s ease-out;
   }
   .icon-enter-active {
-    transition: all .55s ease-out;
+    transition: all 0.55s ease-out;
   }
   .icon-enter {
     transform: translateX(1em);
     opacity: 0;
   }
   .icon-leave-active {
-    transition: all .25s ease-out;
+    transition: all 0.25s ease-out;
   }
   .icon-leave-to {
     transform: translateX(-1em);

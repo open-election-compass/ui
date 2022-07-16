@@ -1,59 +1,67 @@
 <template>
-  <ValidationProvider
-    :name="name"
-    :rules="rules"
-    v-slot="{ changed, errors }"
-    slim
-    ref="field"
+  <div
+    :class="{
+      'field-input': true,
+      'field-input--invalid': field.errors.value.length > 0,
+      'field-input--valid': field.errors.value.length <= 0 && field.meta.dirty,
+    }"
   >
-    <div
-      :class="{
-        'field-input': true,
-        'field-input--invalid': errors.length > 0,
-        'field-input--valid': errors.length <= 0 && changed,
-      }"
-    >
-      <label :for="alias" class="field-input__label">
-        {{ label }}
-      </label>
-      <input
-        v-model="cache"
-        @blur="publish()"
-        :type="type"
-        :name="alias"
-        :id="`field-${alias}`"
-        class="field-input__input"
-        :placeholder="placeholder"
-        :autocomplete="autocomplete"
-        :readonly="readonly"
-      />
-      <small v-if="errors.length < 1" class="field-input__description">
-        <slot name="description">{{ description }}</slot>
-      </small>
-      <small v-else class="field-input__error">{{ errors[0] }}</small>
-    </div>
-  </ValidationProvider>
+    <label :for="alias" class="field-input__label">
+      {{ label }}
+    </label>
+    <input
+      class="field-input__input"
+      :type="type"
+      :name="alias"
+      :id="`field-${alias}`"
+      :placeholder="placeholder"
+      :autocomplete="autocomplete"
+      :readonly="readonly"
+      v-model="field.value.value"
+      @blur="publish"
+      @change="field.handleChange"
+    />
+    <small v-if="field.errors.value.length < 1" class="field-input__description">
+      <slot name="description">{{ description }}</slot>
+    </small>
+    <small v-else class="field-input__error">{{ field.errors.value[0] }}</small>
+  </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
+import { defineComponent, type PropType, toRef } from 'vue';
+import { useField, type ValidationResult } from 'vee-validate';
+
 /**
  * Renders a textual input field, like text, email, number, etc. together with a label, description
  * and validation.
  */
-export default {
+export default defineComponent({
   name: 'FieldInput',
   data() {
     return {
-      cache: null,
-      currentValidation: null,
+      currentValidation: null as null | Promise<void | ValidationResult>,
     };
   },
-  mounted() {
-    this.cache = this.value;
+  emits: ['change'],
+  setup(props) {
+    // Create Ref on alias. This is important because vee-validate needs to know if the field name
+    // changes.
+    const alias = toRef(props, 'alias');
+    const name = toRef(props, 'name');
+
+    // Create Field
+    return {
+      field: useField<string>(alias, props.rules, {
+        label: name,
+        type: props.type,
+        initialValue: props.value,
+      }) as ReturnType<typeof useField>,
+    };
   },
   watch: {
-    value(value) {
-      this.cache = value;
+    value(value: string): void {
+      this.field.setValue(value);
     },
   },
   model: {
@@ -86,20 +94,21 @@ export default {
      * The input type.
      */
     type: {
-      type: String,
+      type: String as PropType<'email' | 'file' | 'number' | 'password' | 'tel' | 'text' | 'url'>,
       required: true,
-      validator(value) {
+      validator: (value: string) => {
         return ['email', 'file', 'number', 'password', 'tel', 'text', 'url'].includes(value);
       },
     },
     value: {
+      type: String,
       required: true,
     },
     /**
      * A set of vee-validate rules.
      */
     rules: {
-      type: [String, Object],
+      type: String,
       required: true,
     },
     placeholder: {
@@ -123,22 +132,23 @@ export default {
     },
   },
   methods: {
-    publish() {
-      this.currentValidation = this.$refs.field.validate(this.cache).then(({ valid }) => {
+    publish(): void {
+      this.field.handleBlur();
+      this.currentValidation = this.field.validate().then((result: ValidationResult) => {
         this.currentValidation = null;
-        if (valid) {
-          this.$emit('change', this.cache.trim());
+        if (result.valid && this.field.value.value !== null) {
+          this.$emit('change', this.field.value.value);
         } else {
           this.$emit('change', '');
         }
       });
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .field-input__label {
   display: block;
@@ -168,7 +178,7 @@ export default {
   }
   &::placeholder {
     font-style: italic;
-    color: #CCC;
+    color: #ccc;
   }
 }
 

@@ -1,16 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
 import Styles from './styles/main.scss';
 
 import AccordionList from './components/accordion-list/AccordionList.vue';
 import AsyncButton from './components/async-button/AsyncButton.vue';
 import BaseButton from './components/base-button/BaseButton.vue';
-import Icon from './components/icon/Icon.vue';
+import IconDisplay from './components/icon-display/IconDisplay.vue';
 import FieldInput from './components/fields/input/FieldInput.vue';
 import FieldSelect from './components/fields/select/FieldSelect.vue';
 import FieldSwitch from './components/fields/switch/FieldSwitch.vue';
 import FieldTextarea from './components/fields/textarea/FieldTextarea.vue';
-import Modal from './components/modal/Modal.vue';
+import ModalView from './components/modal-view/ModalView.vue';
 
 import arLocale from './locales/ar.yaml';
 import deLocale from './locales/de.yaml';
@@ -26,17 +24,15 @@ import trLocale from './locales/tr.yaml';
 
 export {
   Styles,
-
   AccordionList,
   AsyncButton,
   BaseButton,
-  Icon,
+  IconDisplay,
   FieldInput,
   FieldSelect,
   FieldSwitch,
   FieldTextarea,
-  Modal,
-
+  ModalView,
   arLocale,
   deLocale,
   enLocale,

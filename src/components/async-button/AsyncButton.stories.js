@@ -18,7 +18,15 @@ export default {
       name: 'Theme',
       control: {
         type: 'select',
-        options: ['primary', 'positive', 'neutral', 'negative', 'white', 'primary-dark', 'transparent'],
+        options: [
+          'primary',
+          'positive',
+          'neutral',
+          'negative',
+          'white',
+          'primary-dark',
+          'transparent',
+        ],
       },
     },
     size: {
@@ -64,16 +72,26 @@ export const Successful = Template.bind({});
 Successful.args = {
   theme: 'primary',
   right: 'angle-right',
-  action: () => new Promise((resolve) => {
-    setTimeout(() => resolve(), 2000);
-  }),
+  action: () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(), 2000);
+    }),
 };
 
 export const Unsuccessful = Template.bind({});
 Unsuccessful.args = {
   theme: 'primary',
   right: 'angle-right',
-  action: () => new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error('Something went wrong. This error message was returned by the async function passed to the action-property.')), 2000);
-  }),
+  action: () =>
+    new Promise((resolve, reject) => {
+      setTimeout(
+        () =>
+          reject(
+            new Error(
+              'Something went wrong. This error message was returned by the async function passed to the action-property.'
+            )
+          ),
+        2000
+      );
+    }),
 };

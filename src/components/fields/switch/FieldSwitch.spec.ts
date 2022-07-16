@@ -1,20 +1,15 @@
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import { ValidationProvider, extend } from 'vee-validate';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import { oneOf, required } from 'vee-validate/dist/rules.umd';
+import { describe, it, expect } from 'vitest';
+import { mount, VueWrapper } from '@vue/test-utils';
+import { defineRule } from 'vee-validate';
+import { one_of, required } from '@vee-validate/rules';
+defineRule('one_of', one_of);
+defineRule('required', required);
+
 import FieldSwitch from './FieldSwitch.vue';
 
-extend('oneOf', oneOf);
-extend('required', required);
-
-const localVue = createLocalVue();
-localVue.component('ValidationProvider', ValidationProvider);
-
-function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
+function factory(name: string, value = '', rules = 'required'): VueWrapper {
   return mount(FieldSwitch, {
-    localVue,
-    propsData: {
+    props: {
       alias: name.toLowerCase(),
       name,
       label: name,
@@ -27,15 +22,15 @@ function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
       value,
       description: `Description of ${name}`,
     },
-  });
+  }) as VueWrapper;
 }
 
 describe('FieldSwitch', () => {
   it('renders a radio group', async () => {
     const wrapper = await factory('Gender');
     expect(wrapper.findAll('input[type="radio"]').length).toBe(3);
-    const label1 = wrapper.findAll('label.field-switch__button').at(0);
-    expect(wrapper.findAll('input').at(0).element.id === label1.attributes('for')).toBe(true);
+    const label1 = wrapper.findAll('label.field-switch__button')[0];
+    expect(wrapper.findAll('input')[0]?.element.id === label1?.attributes('for')).toBe(true);
   });
 
   it('selects an option by clicking the label/button', async () => {
@@ -66,11 +61,11 @@ describe('FieldSwitch', () => {
   });
 
   it('validates user input and emits change event when input is valid', async () => {
-    const wrapper = await factory('Gender', '', 'required|oneOf:d,f');
+    const wrapper = await factory('Gender', '', 'required|one_of:d,f');
     expect(wrapper.find('.field-switch').classes('field-switch--valid')).toBe(false);
 
     // Valid input
-    await wrapper.find('label.field-switch__button[for="field-gender-f"]').trigger('click');
+    await wrapper.find('input#field-gender-f').setValue('f');
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[0][0]).toBe('f');
     expect(wrapper.find('.field-switch').classes('field-switch--valid')).toBe(true);
@@ -78,7 +73,7 @@ describe('FieldSwitch', () => {
     expect(wrapper.find('.field-switch__error').exists()).toBe(false);
 
     // Invalid input
-    await wrapper.find('label.field-switch__button[for="field-gender-m"]').trigger('click');
+    await wrapper.find('input#field-gender-m').setValue('m');
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[1][0]).toBe('');
     expect(wrapper.find('.field-switch').classes('field-switch--invalid')).toBe(true);
@@ -93,6 +88,6 @@ describe('FieldSwitch', () => {
       readonly: true,
     });
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('input').attributes('readonly')).toBe('readonly');
+    expect(wrapper.find('input').attributes('readonly')).toBeDefined();
   });
 });

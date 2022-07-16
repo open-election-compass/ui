@@ -1,73 +1,71 @@
 <template>
-  <ValidationProvider
-    :name="name"
-    :rules="rules"
-    v-slot="{ changed, errors }"
-    slim
-    ref="field"
+  <div
+    :class="{
+      'field-switch': true,
+      'field-switch--invalid': field.errors.value.length > 0,
+      'field-switch--valid': field.errors.value.length <= 0 && field.meta.dirty,
+    }"
   >
-    <div
-      :class="{
-        'field-switch': true,
-        'field-switch--invalid': errors.length > 0,
-        'field-switch--valid': errors.length <= 0 && changed,
-      }"
-    >
-      <label :for="alias" class="field-switch__label">
-        {{ label }}
-      </label>
-      <div class="field-switch__radio-group">
-        <div
-          v-for="button in options"
-          :key="button.value"
-          class="field-switch__radio-button"
-        >
-          <input
-            v-model="cache"
-            :name="alias"
-            :value="button.value"
-            :id="`field-${alias}-${button.value}`"
-            class="field-switch__input"
-            type="radio"
-            :readonly="readonly"
-          />
-          <label
-            class="field-switch__button"
-            :for="`field-${alias}-${button.value}`"
-          >
-            {{ button.option }}
-          </label>
-        </div>
+    <label :for="alias" class="field-switch__label">
+      {{ label }}
+    </label>
+    <div class="field-switch__radio-group">
+      <div v-for="button in options" :key="button.value" class="field-switch__radio-button">
+        <input
+          class="field-switch__input"
+          type="radio"
+          :name="alias"
+          :id="`field-${alias}-${button.value}`"
+          :value="button.value"
+          :readonly="readonly"
+          v-model="field.value.value"
+          @change="publish"
+        />
+        <label class="field-switch__button" :for="`field-${alias}-${button.value}`">
+          {{ button.option }}
+        </label>
       </div>
-      <small v-if="errors.length < 1" class="field-switch__description">
-        <slot name="description">{{ description }}</slot>
-      </small>
-      <small v-else class="field-switch__error">{{ errors[0] }}</small>
     </div>
-  </ValidationProvider>
+    <small v-if="field.errors.value.length < 1" class="field-switch__description">
+      <slot name="description">{{ description }}</slot>
+    </small>
+    <small v-else class="field-switch__error">{{ field.errors.value[0] }}</small>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, toRef } from 'vue';
+import { useField, type ValidationResult } from 'vee-validate';
+
 /**
  * Renders a radio group but in a switch-like design.
  */
-export default {
+export default defineComponent({
   name: 'FieldSwitch',
   data() {
     return {
-      cache: null,
-      currentValidation: null,
+      currentValidation: null as null | Promise<void | ValidationResult>,
     };
   },
-  mounted() {
-    this.cache = this.value || null;
+  emits: ['change'],
+  setup(props) {
+    // Create Ref on alias. This is important because vee-validate needs to know if the field name
+    // changes.
+    const alias = toRef(props, 'alias');
+    const name = toRef(props, 'name');
+
+    // Create Field
+    return {
+      field: useField<string>(alias, props.rules, {
+        label: name,
+        type: 'radio',
+        initialValue: props.value,
+      }) as ReturnType<typeof useField>,
+    };
   },
   watch: {
-    value(value) {
-      this.cache = value || null;
-    },
-    cache() {
-      this.publish();
+    value(value: string): void {
+      this.field?.setValue(value);
     },
   },
   model: {
@@ -97,20 +95,21 @@ export default {
       required: true,
     },
     value: {
+      type: String,
       required: true,
     },
     /**
      * An array of options in this form: `{ value: string, option: string }`.
      */
     options: {
-      type: Array,
+      type: Array as () => { value: string; option: string }[],
       required: true,
     },
     /**
      * A set of vee-validate rules.
      */
     rules: {
-      type: [String, Object],
+      type: String,
       required: true,
     },
     /**
@@ -126,22 +125,22 @@ export default {
     },
   },
   methods: {
-    publish() {
-      this.currentValidation = this.$refs.field.validate(this.cache).then(({ valid }) => {
+    publish(): void {
+      this.currentValidation = this.field.validate().then((result: ValidationResult) => {
         this.currentValidation = null;
-        if (valid) {
-          this.$emit('change', this.cache);
+        if (result.valid && this.field.value.value !== null) {
+          this.$emit('change', this.field.value.value);
         } else {
           this.$emit('change', '');
         }
       });
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .field-switch__label {
   display: block;
@@ -190,7 +189,8 @@ export default {
   border: 1px solid $theme-neutral-border;
   text-align: center;
   transition: all 0.2s ease-out;
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     filter: brightness(1.025);
   }
 }
@@ -201,7 +201,7 @@ export default {
       border-top-color: $theme-primary-border;
     }
     .field-switch__button {
-      border-radius: $border-radius $border-radius 0 0 ;
+      border-radius: $border-radius $border-radius 0 0;
     }
   }
   &:last-child {

@@ -1,17 +1,14 @@
 <template>
-  <FontAwesomeIcon
-    :icon="['fas', name]"
-    class="icon"
-    :fixed-width="monospace"
-    :spin="spinning" />
+  <FontAwesomeIcon :icon="['fas', name]" class="icon" :fixed-width="monospace" :spin="spinning" />
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 /**
  * A simple icon component to display free FontAwesome 5 icons.
  */
-export default {
-  name: 'Icon',
+export default defineComponent({
+  name: 'IconDisplay',
   props: {
     /**
      * The FontAwesome icon identifier (snake-case) to be used.
@@ -35,5 +32,5 @@ export default {
       default: false,
     },
   },
-};
+});
 </script>

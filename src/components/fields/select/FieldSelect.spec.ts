@@ -1,28 +1,28 @@
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import { ValidationProvider, extend } from 'vee-validate';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import { oneOf, required } from 'vee-validate/dist/rules.umd';
+import { describe, it, expect } from 'vitest';
+import { mount, VueWrapper } from '@vue/test-utils';
+import { defineRule } from 'vee-validate';
+import { one_of, required } from '@vee-validate/rules';
+defineRule('one_of', one_of);
+defineRule('required', required);
+
 import FieldSelect from './FieldSelect.vue';
 
-extend('oneOf', oneOf);
-extend('required', required);
-
-const localVue = createLocalVue();
-localVue.component('ValidationProvider', ValidationProvider);
-
-const Icon = {
-  template: '<span class="icon" />',
+const IconDisplay = {
+  template: '<span class="icon-display" />',
   props: ['name'],
 };
 
-function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
+function factory(name: string, value = '', rules = 'required'): VueWrapper {
   return mount(FieldSelect, {
-    localVue,
-    mocks: {
-      $t: (msg: string) => msg,
+    global: {
+      mocks: {
+        $t: (msg: string) => msg,
+      },
+      stubs: {
+        IconDisplay,
+      },
     },
-    propsData: {
+    props: {
       alias: name.toLowerCase(),
       name,
       label: name,
@@ -37,10 +37,7 @@ function factory(name: string, value = '', rules = 'required'): Wrapper<Vue> {
       value,
       description: `Description of ${name}`,
     },
-    stubs: {
-      Icon,
-    },
-  });
+  }) as VueWrapper;
 }
 
 describe('FieldSelect', () => {
@@ -51,7 +48,7 @@ describe('FieldSelect', () => {
     expect(wrapper.find('select option[disabled]').text()).toContain('choose');
   });
 
-  it('selects an option from \'value\'', async () => {
+  it("selects an option from 'value'", async () => {
     const wrapper = await factory('Doctor', '11');
     expect((wrapper.find('select').element as any).value).toBe('11');
     await wrapper.setProps({
@@ -59,6 +56,7 @@ describe('FieldSelect', () => {
     });
     expect((wrapper.find('select').element as any).value).toBe('12');
     await wrapper.find('select').setValue('10');
+    await wrapper.find('select').trigger('change');
     expect((wrapper.find('select').element as any).value).toBe('10');
     await wrapper.setProps({
       value: '',
@@ -78,7 +76,7 @@ describe('FieldSelect', () => {
   });
 
   it('validates user input and emits change event when input is valid', async () => {
-    const wrapper = await factory('Doctor', '', 'required|oneOf:9,11,13');
+    const wrapper = await factory('Doctor', '', 'required|one_of:9,11,13');
     expect((wrapper.find('select').element as any).value).toBe('');
     expect(wrapper.find('.field-select').classes('field-select--valid')).toBe(false);
 
@@ -106,6 +104,6 @@ describe('FieldSelect', () => {
       readonly: true,
     });
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('select').attributes('readonly')).toBe('readonly');
+    expect(wrapper.find('select').attributes('readonly')).toBeDefined();
   });
 });

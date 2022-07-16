@@ -1,5 +1,7 @@
 # OpenElectionCompass UI
-> Collection of Vue.js components for the OpenElectionCompass web interfaces.
+> Collection of Vue 3 components for the OpenElectionCompass web interfaces.
+
+Use version <= 0.12.0 for Vue 2.
 
 Components are documented using Storybook.
 [📗 Live-Components and Docs](https://open-election-compass.github.io/ui/)
@@ -15,7 +17,7 @@ npm i @open-election-compass
 ### Import components and styling
 
 ```js
-import '@open-election-compass/ui/dist/open-election-compass-ui.css';
+import '@open-election-compass/ui/dist/style.css';
 import {
   AccordionList,
   AsyncButton,
@@ -43,32 +45,17 @@ Vue.component('Modal', Modal);
 OpenElectionCompass UI relies on common Vue.js packages you might have already installed in your
 application. To allow for maximum flexibility, you have to provide these yourself:
 
-### VeeValidate (v3 for Vue.js 2)
+### VeeValidate (v4 for Vue.js 3)
 
-To use any of the Field components, you need to install [VeeValidate](https://vee-validate.logaretm.com/v3/)
+To use any of the Field components, you need to install [VeeValidate](https://vee-validate.logaretm.com/)
 and provide locales and rules of your choice:
 
-```js
-import { ValidationProvider, extend, localize } from 'vee-validate';
-import {
-  alpha, email, integer, length, max, min, regex, required,
-} from 'vee-validate/dist/rules.umd';
-import en from 'vee-validate/dist/locale/en.json';
-
-// Configure VeeValidate
-extend('alpha', alpha);
-extend('email', email);
-extend('integer', integer);
-extend('length', length);
-extend('max', max);
-extend('min', min);
-extend('regex', regex);
-extend('required', required);
-
-localize({ en });
-localize('en');
-
-Vue.component('ValidationProvider', ValidationProvider);
+```ts
+import { defineRule } from 'vee-validate';
+import { required, email, min } from '@vee-validate/rules';
+defineRule('required', required);
+defineRule('email', email);
+defineRule('min', min);
 ```
 
 ### VueI18n
@@ -77,6 +64,7 @@ Vue.component('ValidationProvider', ValidationProvider);
 translations, e.g. FieldSelect adds a 'Please choose' option:
 
 ```js
+// TODO
 import VueI18n from 'vue-i18n';
 import { deLocale, enLocale } from '@open-election-compass/ui';
 

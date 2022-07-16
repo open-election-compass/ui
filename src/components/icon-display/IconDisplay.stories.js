@@ -1,8 +1,8 @@
-import Icon from './Icon.vue';
+import IconDisplay from './IconDisplay.vue';
 
 export default {
-  title: 'Elements/Icon',
-  component: Icon,
+  title: 'Elements/IconDisplay',
+  component: IconDisplay,
   argTypes: {
     name: {
       name: 'Icon Name',
@@ -23,8 +23,8 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { Icon },
-  template: '<Icon v-bind="$props" />',
+  components: { IconDisplay },
+  template: '<IconDisplay v-bind="$props" />',
 });
 
 export const Check = Template.bind({});

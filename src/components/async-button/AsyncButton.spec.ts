@@ -1,7 +1,9 @@
-import { shallowMount, Wrapper } from '@vue/test-utils';
+import { describe, it, beforeEach, expect, vi } from 'vitest';
+import { shallowMount, mount, VueWrapper } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import AsyncButton from './AsyncButton.vue';
 
-const Icon = {
+const IconDisplay = {
   template: '<span class="icon" />',
   props: {
     name: {
@@ -15,34 +17,32 @@ const Icon = {
 };
 
 describe('AsyncButton', () => {
-  let wrapper: Wrapper<Vue>;
+  let wrapper: VueWrapper;
   const options = {
-    propsData: {
+    props: {
       theme: 'primary',
       right: 'angle-right',
-      action: (): Promise<void> => new Promise((resolve) => {
-        setTimeout(() => resolve(), 2000);
-      }),
+      action: (): Promise<void> =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve(), 2000);
+        }),
     },
-    mocks: {
-      $t: (message: string) => message,
-    },
-    stubs: {
-      Icon,
-      Modal: {
-        props: ['visible'],
-        template: '<div v-if="visible" class="modal-stub"><slot /></div>',
+    global: {
+      mocks: {
+        $t: (message: string) => message,
+      },
+      stubs: {
+        IconDisplay,
+        ModalView: {
+          props: ['visible'],
+          template: '<div v-if="visible" class="modal-view-stub"><slot /></div>',
+        },
       },
     },
   };
 
   beforeEach(() => {
-    jest.useFakeTimers();
-    wrapper = shallowMount(AsyncButton, options);
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
+    wrapper = shallowMount(AsyncButton, options) as VueWrapper;
   });
 
   it('renders a `button`', async () => {
@@ -64,7 +64,7 @@ describe('AsyncButton', () => {
 
   it('can render an icon before the caption', async () => {
     await wrapper.setProps({ left: 'check' });
-    expect(wrapper.findComponent(Icon).exists()).toBe(true);
+    expect(wrapper.findComponent(IconDisplay).exists()).toBe(true);
   });
 
   it('can render an icon after the caption', async () => {
@@ -73,11 +73,14 @@ describe('AsyncButton', () => {
   });
 
   it('uses the default slot as the caption', () => {
-    wrapper = shallowMount(AsyncButton, Object.assign(options, {
-      slots: {
-        default: 'Foo',
-      },
-    }));
+    wrapper = shallowMount(
+      AsyncButton,
+      Object.assign(options, {
+        slots: {
+          default: 'Foo',
+        },
+      })
+    ) as VueWrapper;
     expect(wrapper.text()).toBe('Foo');
   });
 
@@ -140,93 +143,130 @@ describe('AsyncButton', () => {
   });
 
   it('executes the given action when clicked', async () => {
-    const button = wrapper.find('button.async-button');
-    const action = jest.fn().mockResolvedValue(undefined);
+    wrapper = mount(AsyncButton, options) as VueWrapper;
+    const action = vi.fn().mockResolvedValue(true);
     await wrapper.setProps({ action });
-    button.trigger('click');
+
+    await wrapper.find('button').trigger('click');
+
     expect(wrapper.emitted('click')).toHaveLength(1);
     expect(action).toHaveBeenCalledTimes(1);
   });
 
   it('is disabled when action is being executed (pending)', async () => {
+    vi.useFakeTimers();
+
     const button = wrapper.find('button.async-button');
     expect((button.element as HTMLButtonElement).disabled).toBe(false);
-    button.trigger('click');
-    await wrapper.vm.$nextTick();
+
+    await button.trigger('click');
+
+    await nextTick();
     expect((button.element as HTMLButtonElement).disabled).toBe(true);
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
     expect((button.element as HTMLButtonElement).disabled).toBe(false);
+
+    vi.useRealTimers();
   });
 
   it('shows special icons to indicate pending, success and errors while executing the action', async () => {
+    vi.useFakeTimers();
+
     const button = wrapper.find('button.async-button');
     expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
 
     // Successful action
     wrapper.setProps({
-      action: (): Promise<void> => new Promise((resolve) => {
-        setTimeout(() => resolve(), 2000);
-      }),
+      action: (): Promise<void> =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve(), 2000);
+        }),
     });
-    button.trigger('click');
-    await wrapper.vm.$nextTick();
+
+    await button.trigger('click');
+
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'pending-icon' }).props('name')).toBe('slash');
     expect(wrapper.getComponent({ ref: 'pending-icon' }).props('spinning')).toBe(true);
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'success-icon' }).props('name')).toBe('check');
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
+    vi.runAllTimers();
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
 
     // Unsuccessful action
     await wrapper.setProps({
-      action: (): Promise<void> => new Promise((resolve, reject) => {
-        setTimeout(() => reject(new Error('foo')), 2000);
-      }),
+      action: (): Promise<void> =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject(new Error('foo')), 2000);
+        }),
     });
-    button.trigger('click');
-    await wrapper.vm.$nextTick();
+
+    await button.trigger('click');
+
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'pending-icon' }).props('name')).toBe('slash');
     expect(wrapper.getComponent({ ref: 'pending-icon' }).props('spinning')).toBe(true);
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'error-icon' }).props('name')).toBe('times');
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
+    vi.runAllTimers();
+    await nextTick();
     expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
+
+    vi.useRealTimers();
   });
 
   it('shows error messages in a modal', async () => {
+    vi.useFakeTimers();
+
     const button = wrapper.find('button.async-button');
 
     // Reject promise
     wrapper.setProps({
-      action: (): Promise<void> => new Promise((resolve, reject) => {
-        setTimeout(() => reject(new Error('foo')), 2000);
-      }),
+      action: (): Promise<void> =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject(new Error('foo')), 2000);
+        }),
     });
-    await wrapper.vm.$nextTick();
-    button.trigger('click');
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
-    expect(wrapper.find('.modal-stub').text()).toBe('foo');
+    await nextTick();
+
+    await button.trigger('click');
+
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    expect(wrapper.find('.modal-view-stub').text()).toBe('foo');
 
     // Catch error in promise
     wrapper.setProps({
-      action: jest.fn().mockImplementation(() => new Promise(() => {
-        throw new Error('bar');
-      })),
+      action: vi.fn().mockImplementation(
+        () =>
+          new Promise(() => {
+            throw new Error('bar');
+          })
+      ),
     });
-    await wrapper.vm.$nextTick();
-    button.trigger('click');
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
-    jest.runAllTimers();
-    await wrapper.vm.$nextTick();
-    expect(wrapper.find('.modal-stub').text()).toBe('bar');
+    await nextTick();
+
+    await button.trigger('click');
+
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    expect(wrapper.find('.modal-view-stub').text()).toBe('bar');
+
+    vi.useRealTimers();
   });
 });

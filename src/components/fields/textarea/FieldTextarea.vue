@@ -1,56 +1,63 @@
 <template>
-  <ValidationProvider
-    :name="name"
-    :rules="rules"
-    v-slot="{ changed, errors }"
-    slim
-    ref="field"
+  <div
+    :class="{
+      'field-textarea': true,
+      'field-textarea--invalid': field.errors.value.length > 0,
+      'field-textarea--valid': field.errors.value.length <= 0 && field.meta.dirty,
+    }"
   >
-    <div
-      :class="{
-        'field-textarea': true,
-        'field-textarea--invalid': errors.length > 0,
-        'field-textarea--valid': errors.length <= 0 && changed,
-      }"
-    >
-      <label :for="alias" class="field-textarea__label">
-        {{ label }}
-      </label>
-      <textarea
-        v-model="cache"
-        @blur="publish()"
-        :name="alias"
-        :id="`field-${alias}`"
-        class="field-textarea__textarea"
-        :placeholder="placeholder"
-        :readonly="readonly"
-      />
-      <small v-if="errors.length < 1" class="field-textarea__description">
-        <slot name="description">{{ description }}</slot>
-      </small>
-      <small v-else class="field-textarea__error">{{ errors[0] }}</small>
-    </div>
-  </ValidationProvider>
+    <label :for="alias" class="field-textarea__label">
+      {{ label }}
+    </label>
+    <textarea
+      class="field-textarea__textarea"
+      :name="alias"
+      :id="`field-${alias}`"
+      :placeholder="placeholder"
+      :readonly="readonly"
+      v-model="typeFixedValue.value"
+      @blur="publish"
+      @change="field.handleChange"
+    />
+    <small v-if="field.errors.value.length < 1" class="field-textarea__description">
+      <slot name="description">{{ description }}</slot>
+    </small>
+    <small v-else class="field-textarea__error">{{ field.errors.value[0] }}</small>
+  </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
+import { defineComponent, toRef, type Ref } from 'vue';
+import { useField, type ValidationResult } from 'vee-validate';
+
 /**
  * Renders a textarea together with a label, description and validation.
  */
-export default {
+export default defineComponent({
   name: 'FieldTextarea',
   data() {
     return {
-      cache: null,
-      currentValidation: null,
+      currentValidation: null as null | Promise<void | ValidationResult>,
     };
   },
-  mounted() {
-    this.cache = this.value;
+  emits: ['change'],
+  setup(props) {
+    // Create Ref on alias. This is important because vee-validate needs to know if the field name
+    // changes.
+    const alias = toRef(props, 'alias');
+    const name = toRef(props, 'name');
+
+    // Create Field
+    return {
+      field: useField<string>(alias, props.rules, {
+        label: name,
+        initialValue: props.value,
+      }) as ReturnType<typeof useField>,
+    };
   },
   watch: {
-    value(value) {
-      this.cache = value;
+    value(value: string): void {
+      this.field.setValue(value);
     },
   },
   model: {
@@ -80,13 +87,14 @@ export default {
       required: true,
     },
     value: {
+      type: String,
       required: true,
     },
     /**
      * A set of vee-validate rules.
      */
     rules: {
-      type: [String, Object],
+      type: String,
       required: true,
     },
     placeholder: {
@@ -105,23 +113,30 @@ export default {
       default: false,
     },
   },
+  computed: {
+    typeFixedValue() {
+      // See https://github.com/logaretm/vee-validate/issues/3846
+      return this.field.value as Ref<string>;
+    },
+  },
   methods: {
-    publish() {
-      this.currentValidation = this.$refs.field.validate(this.cache).then(({ valid }) => {
+    publish(): void {
+      this.field.handleBlur();
+      this.currentValidation = this.field.validate().then((result: ValidationResult) => {
         this.currentValidation = null;
-        if (valid) {
-          this.$emit('change', this.cache.trim());
+        if (result.valid && this.field.value.value !== null) {
+          this.$emit('change', this.field.value.value);
         } else {
           this.$emit('change', '');
         }
       });
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .field-textarea__label {
   display: block;
@@ -151,7 +166,7 @@ export default {
   }
   &::placeholder {
     font-style: italic;
-    color: #CCC;
+    color: #ccc;
   }
 }
 

@@ -27,7 +27,15 @@ export default {
       name: 'Theme',
       control: {
         type: 'select',
-        options: ['primary', 'positive', 'neutral', 'negative', 'white', 'primary-dark', 'transparent'],
+        options: [
+          'primary',
+          'positive',
+          'neutral',
+          'negative',
+          'white',
+          'primary-dark',
+          'transparent',
+        ],
       },
     },
     size: {

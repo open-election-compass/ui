@@ -1,6 +1,6 @@
-import { createLocalVue, shallowMount, Wrapper } from '@vue/test-utils';
-import VScrollLock from 'v-scroll-lock';
-import Modal from './Modal.vue';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { shallowMount, VueWrapper } from '@vue/test-utils';
+import ModalView from './ModalView.vue';
 import BaseButton from '../base-button/BaseButton.vue';
 
 const Icon = {
@@ -8,16 +8,19 @@ const Icon = {
   props: ['name'],
 };
 
-describe('Modal', () => {
-  let wrapper: Wrapper<Vue>;
-  const localVue = createLocalVue();
-  localVue.use(VScrollLock);
+describe('ModalView', () => {
+  let wrapper: VueWrapper;
   const options = {
-    localVue,
-    mocks: {
-      $t: (message: string) => message,
+    global: {
+      mocks: {
+        $t: (message: string) => message,
+      },
+      stubs: {
+        BaseButton,
+        Icon,
+      },
     },
-    propsData: {
+    props: {
       visible: true,
       heading: 'Heading',
       description: 'Description',
@@ -26,14 +29,12 @@ describe('Modal', () => {
     slots: {
       default: 'Lorem ipsum',
     },
-    stubs: {
-      BaseButton,
-      Icon,
-    },
   };
 
   beforeEach(() => {
-    wrapper = shallowMount(Modal, options);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    wrapper = shallowMount(ModalView, options) as VueWrapper;
   });
 
   it('renders a modal when `visible` property is set', async () => {
@@ -63,9 +64,9 @@ describe('Modal', () => {
   });
 
   it('spins loading icons', async () => {
-    expect(wrapper.find('.modal__icon').attributes('spin')).toBe(undefined);
+    expect(wrapper.find('.modal__icon').attributes('spin')).toBe('false');
     await wrapper.setProps({ icon: 'slash' });
-    expect(wrapper.find('.modal__icon').attributes('spin')).toBe('true');
+    expect(wrapper.find('.modal__icon').attributes('spin')).toBeDefined();
   });
 
   it('adds a done button by default', async () => {
@@ -89,11 +90,11 @@ describe('Modal', () => {
       ],
     });
     expect(wrapper.findAll('.modal__actions button').length).toBe(2);
-    expect(wrapper.findAll('.modal__actions button').at(0).text()).toBe('foo');
-    expect(wrapper.findAll('.modal__actions button').at(1).text()).toBe('bar');
+    expect(wrapper.findAll('.modal__actions button')[0]?.text()).toBe('foo');
+    expect(wrapper.findAll('.modal__actions button')[1]?.text()).toBe('bar');
   });
 
-  it('doesn\'t add padding to the content when asked to', async () => {
+  it("doesn't add padding to the content when asked to", async () => {
     expect(wrapper.find('.modal').classes('modal--no-padding')).toBe(false);
     await wrapper.setProps({
       noPadding: true,

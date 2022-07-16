@@ -10,46 +10,60 @@
     :target="tag === 'a' ? target : undefined"
     @click="onClick"
   >
-    <span
-      v-if="left"
-      class="base-button__left-icon"
-    >
-      <Icon :name="left" monospace />
+    <span v-if="left" class="base-button__left-icon">
+      <IconDisplay :name="left" monospace />
     </span>
-    <span
-      v-if="$slots.default"
-      class="base-button__caption"
-    >
+    <span v-if="$slots.default" class="base-button__caption">
       <slot />
     </span>
-    <span
-      v-if="right"
-      class="base-button__right-icon"
-    >
-      <Icon :name="right" monospace />
+    <span v-if="right" class="base-button__right-icon">
+      <IconDisplay :name="right" monospace />
     </span>
   </component>
 </template>
 
-<script lang="js">
-import Icon from '../icon/Icon.vue';
+<script lang="ts">
+import { defineComponent, type PropType } from 'vue';
+import IconDisplay from '../icon-display/IconDisplay.vue';
+
+export interface BaseButtonProps {
+  tag?: 'button' | 'a';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  theme?:
+    | 'primary'
+    | 'positive'
+    | 'neutral'
+    | 'negative'
+    | 'white'
+    | 'primary-dark'
+    | 'transparent';
+  size?: 'small' | 'normal' | 'large';
+  textAlign?: 'left' | 'center';
+  left?: string;
+  right?: string;
+  target?: string;
+  disabled?: boolean;
+  tabindex?: number;
+}
 
 /**
  * Renders a basic button or a-tag with support for icons, themes and sizes.
  */
-export default {
+export default defineComponent({
   name: 'BaseButton',
   components: {
-    Icon,
+    IconDisplay,
   },
+  emits: ['click'],
   props: {
     /**
      * The HTML tag to be used.
      */
     tag: {
-      type: String,
+      type: String as PropType<'button' | 'a'>,
       default: 'button',
-      validator: (value) => ['button', 'a'].includes(value),
+      validator: (value: string) => ['button', 'a'].includes(value),
     },
     /**
      * The href attribute – only applies when tag is set to `a`.
@@ -62,32 +76,41 @@ export default {
      * The type of button – only applies when tag is set to `button`.
      */
     type: {
-      type: String,
+      type: String as PropType<'button' | 'submit' | 'reset'>,
       default: 'button',
-      validator: (value) => ['button', 'submit', 'reset'].includes(value),
+      validator: (value: string) => ['button', 'submit', 'reset'].includes(value),
     },
     /**
      * The global theme to be used. Can indicate the purpose of the button.
      */
     theme: {
-      type: String,
+      type: String as PropType<
+        'primary' | 'positive' | 'neutral' | 'negative' | 'white' | 'primary-dark' | 'transparent'
+      >,
       default: 'primary',
-      validator: (value) => [
-        'primary', 'positive', 'neutral', 'negative', 'white', 'primary-dark', 'transparent',
-      ].includes(value),
+      validator: (value: string) =>
+        [
+          'primary',
+          'positive',
+          'neutral',
+          'negative',
+          'white',
+          'primary-dark',
+          'transparent',
+        ].includes(value),
     },
     /**
      * The global size to be used.
      */
     size: {
-      type: String,
+      type: String as PropType<'small' | 'normal' | 'large'>,
       default: 'normal',
-      validator: (value) => ['small', 'normal', 'large'].includes(value),
+      validator: (value: string) => ['small', 'normal', 'large'].includes(value),
     },
     textAlign: {
-      type: String,
+      type: String as PropType<'left' | 'center'>,
       default: 'center',
-      validator: (value) => ['left', 'center'].includes(value),
+      validator: (value: string) => ['left', 'center'].includes(value),
     },
     /**
      * The FontAwesome icon to be displayed left of the caption.
@@ -133,7 +156,7 @@ export default {
     },
   },
   methods: {
-    onClick(event) {
+    onClick(event: MouseEvent) {
       if (this.disabled) {
         event.preventDefault();
         return;
@@ -144,11 +167,11 @@ export default {
       this.$emit('click', event);
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import '~@/styles/core';
+@import '@/styles/core';
 
 .base-button {
   font-weight: 500;
@@ -287,7 +310,7 @@ export default {
   }
 
   &.base-button--theme-transparent:hover {
-    border-color: #D5D5D5;
+    border-color: #d5d5d5;
     box-shadow: $shadow-hover;
   }
 
