@@ -1,7 +1,7 @@
 {
   "name": "@open-election-compass/ui",
   "description": "Collection of Vue.js components for the OpenElectionCompass web interfaces.",
-  "version": "0.13.0-alpha.3",
+  "version": "0.13.0-beta.0",
   "author": "Till Sanders <mail@till-sanders.de>",
   "license": "GPL-3.0",
   "files": [
@@ -17,7 +17,8 @@
     ".": {
       "import": "./dist/open-election-compass-ui.es.min.js",
       "require": "./dist/open-election-compass-ui.umd.min.js"
-    }
+    },
+    "./style.css": "./dist/style.css"
   },
   "bugs": {
     "url": "https://github.com/open-election-compass/ui/issues"
