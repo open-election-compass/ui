@@ -1,10 +1,18 @@
-hi:
-  async-button:
-    error:
-      heading: "एक त्रुटि हुई हैं"
-      okay-button: "ठीक है"
-  fields:
-    select:
-      choose: "कृपया चुनें"
-  modal:
-    done: "हो गया"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
