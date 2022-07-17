@@ -1,10 +1,18 @@
-ro:
-  async-button:
-    error:
-      heading: "A apărut o eroare"
-      okay-button: "Ok"
-  fields:
-    select:
-      choose: "Vă rugăm să alegeți"
-  modal:
-    done: "Efectuat"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
