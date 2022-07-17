@@ -3,6 +3,9 @@ import AccordionList from './AccordionList.vue';
 export default {
   title: 'Elements/AccordionList',
   component: AccordionList,
+  args: {
+    openFirst: false,
+  },
   argTypes: {
     items: {
       name: 'Items',
@@ -12,17 +15,18 @@ export default {
     openFirst: {
       name: 'Open First Item',
       control: 'boolean',
-      defaultValue: false,
     },
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
+  setup() {
+    return { args };
+  },
   components: { AccordionList },
   template: `
     <AccordionList
-      v-bind="$props"
+      v-bind="args"
       :items="[
         { alias: 'first', caption: 'First' },
         { alias: 'second', caption: 'Second' },

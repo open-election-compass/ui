@@ -41,12 +41,14 @@ export default {
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
+  setup() {
+    return { args };
+  },
   components: { FieldSelect },
   template: `
     <FieldSelect
-      v-bind="$props"
+      v-bind="args"
       :options="[
         { option: 'Christopher Eccleston', value: '9' },
         { option: 'David Tennant', value: '10' },
@@ -63,6 +65,6 @@ Doctors.args = {
   alias: 'doctors',
   name: 'Doctor',
   label: 'Bowties are cool?',
-  rules: 'required|oneOf:11',
+  rules: 'required|one_of:11',
   value: '',
 };

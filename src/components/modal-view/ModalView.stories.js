@@ -4,30 +4,34 @@ import ModalView from './ModalView.vue';
 export default {
   title: 'Elements/ModalView',
   component: ModalView,
+  args: {
+    visible: true,
+    heading: 'Lorem ipsum',
+    description: 'This is a demo of the Modal component.',
+    icon: 'check',
+    noPadding: false,
+  },
   argTypes: {
     visible: {
       name: 'Visible?',
       control: 'boolean',
-      defaultValue: false,
     },
     heading: {
       name: 'Heading',
       control: 'text',
-      defaultValue: 'Lorem ipsum',
     },
     description: {
       name: 'Description',
       control: 'text',
-      defaultValue: 'This is a demo of the Modal component.',
     },
     icon: {
       name: 'Icon',
       control: 'text',
-      defaultValue: 'check',
     },
     width: {
       name: 'Width',
-      control: { type: 'radio', options: ['slim', 'narrow', 'normal', 'wide'] },
+      control: 'radio',
+      options: ['slim', 'narrow', 'normal', 'wide'],
     },
     buttons: {
       name: 'Buttons',
@@ -35,17 +39,18 @@ export default {
     noPadding: {
       name: 'No Padding',
       control: 'boolean',
-      defaultValue: false,
       description: "Don't add padding to the modal content.",
     },
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
   components: { AccordionList, ModalView },
+  setup() {
+    return { args };
+  },
   template:
-    '<Modal v-bind="$props">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</Modal>',
+    '<ModalView v-bind="args">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</ModalView>',
 });
 
 export const Slim = Template.bind({});
@@ -53,13 +58,15 @@ Slim.args = {
   width: 'slim',
 };
 
-export const WithAccordionList = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+export const WithAccordionList = (args) => ({
   components: { AccordionList, ModalView },
+  setup() {
+    return { args };
+  },
   template: `
-    <Modal v-bind="$props">
+    <ModalView v-bind="args">
       <AccordionList
-        v-bind="$props"
+        v-bind="args"
         :items="[
           { alias: 'first', caption: 'First' },
           { alias: 'second', caption: 'Second' },
@@ -76,7 +83,7 @@ export const WithAccordionList = (args, { argTypes }) => ({
           Nunc pretium nibh sit amet pellentesque ultricies. Pellentesque imperdiet, purus et imperdiet cursus, lorem arcu gravida nisi, ac pharetra nibh mi vitae tortor. Duis finibus tincidunt ligula vel hendrerit. Vivamus justo diam, aliquam sed iaculis a, mollis sit amet nunc. Maecenas eu scelerisque ipsum. Ut pharetra ullamcorper ex, eleifend semper neque tempor et. Vivamus vel arcu ultrices, sagittis velit eget, tincidunt velit.
         </template>
       </AccordionList>
-    </Modal>
+    </ModalView>
   `,
 });
 WithAccordionList.args = {

@@ -3,6 +3,9 @@ import FieldInput from './FieldInput.vue';
 export default {
   title: 'Elements/Fields/FieldInput',
   component: FieldInput,
+  args: {
+    value: '',
+  },
   argTypes: {
     alias: {
       name: 'Alias',
@@ -18,10 +21,8 @@ export default {
     },
     type: {
       name: 'Type',
-      control: {
-        type: 'select',
-        options: ['text', 'number', 'file'],
-      },
+      control: 'select',
+      options: ['text', 'number', 'file'],
     },
     value: {
       name: 'Value',
@@ -50,10 +51,12 @@ export default {
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
+  setup() {
+    return { args };
+  },
   components: { FieldInput },
-  template: '<FieldInput v-bind="$props" />',
+  template: '<FieldInput v-bind="args" />',
 });
 
 export const Email = Template.bind({});

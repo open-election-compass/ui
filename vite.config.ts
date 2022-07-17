@@ -28,7 +28,7 @@ export default defineConfig({
         '@fortawesome/vue-fontawesome',
         '@fortawesome/fontawesome-svg-core',
         '@fortawesome/free-solid-svg-icons',
-        'v-scroll-lock',
+        '@vueuse/core',
         'vee-validate',
         'vue-i18n',
       ],

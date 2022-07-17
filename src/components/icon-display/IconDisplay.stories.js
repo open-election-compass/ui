@@ -3,6 +3,10 @@ import IconDisplay from './IconDisplay.vue';
 export default {
   title: 'Elements/IconDisplay',
   component: IconDisplay,
+  args: {
+    monospace: true,
+    spinning: false,
+  },
   argTypes: {
     name: {
       name: 'Icon Name',
@@ -11,20 +15,20 @@ export default {
     monospace: {
       name: 'Monospace',
       control: 'boolean',
-      defaultValue: true,
     },
     spinning: {
       name: 'Spinning',
       control: 'boolean',
-      defaultValue: false,
     },
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
+  setup() {
+    return { args };
+  },
   components: { IconDisplay },
-  template: '<IconDisplay v-bind="$props" />',
+  template: '<IconDisplay v-bind="args" />',
 });
 
 export const Check = Template.bind({});

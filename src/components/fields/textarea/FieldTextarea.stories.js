@@ -39,10 +39,12 @@ export default {
   },
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+const Template = (args) => ({
+  setup() {
+    return { args };
+  },
   components: { FieldTextarea },
-  template: '<FieldTextarea v-bind="$props" />',
+  template: '<FieldTextarea v-bind="args" />',
 });
 
 export const Message = Template.bind({});

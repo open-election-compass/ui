@@ -46,7 +46,7 @@ import { useScrollLock } from '@vueuse/core';
 import BaseButton, { type BaseButtonProps } from '../base-button/BaseButton.vue';
 import IconDisplay from '../icon-display/IconDisplay.vue';
 
-interface BaseButtonPropsHelper extends BaseButtonProps {
+export interface BaseButtonPropsHelper extends BaseButtonProps {
   caption: string;
   eventName: string;
 }
