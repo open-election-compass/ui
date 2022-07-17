@@ -1,10 +1,18 @@
-es:
-  async-button:
-    error:
-      heading: "Se ha producido un error"
-      okay-button: "Okay"
-  fields:
-    select:
-      choose: "Por favor, elige"
-  modal:
-    done: "Listo"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
