@@ -1,10 +1,18 @@
-vi:
-  async-button:
-    error:
-      heading: "Có lỗi xảy ra"
-      okay-button: "Được"
-  fields:
-    select:
-      choose: "Hãy chọn"
-  modal:
-    done: "Xong"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
