@@ -1,10 +1,18 @@
-sr:
-  async-button:
-    error:
-      heading: "Дошло је до грешке"
-      okay-button: "У реду"
-  fields:
-    select:
-      choose: "Изаберите"
-  modal:
-    done: "Извршено"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
