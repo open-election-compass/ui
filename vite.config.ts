@@ -4,11 +4,18 @@ import path from 'path';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
 import yaml from '@rollup/plugin-yaml';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), yaml()],
+  plugins: [
+    vue(),
+    dts({
+      outputDir: path.resolve(__dirname, 'types'),
+    }),
+    yaml(),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
