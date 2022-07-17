@@ -1,10 +1,18 @@
-el:
-  async-button:
-    error:
-      heading: "Παρουσιάστηκε σφάλμα"
-      okay-button: "Εντάξει"
-  fields:
-    select:
-      choose: "Παρακαλούμε επιλέξτε"
-  modal:
-    done: "Ολοκληρώθηκε"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
