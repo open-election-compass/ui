@@ -1,10 +1,18 @@
-ha:
-  async-button:
-    error:
-      heading: "An samu matsala"
-      okay-button: "OK"
-  fields:
-    select:
-      choose: "Dan Allah zaɓa"
-  modal:
-    done: "Na gama"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
