@@ -1,5 +1,4 @@
 const { loadConfigFromFile, mergeConfig } = require('vite');
-const yaml = require('@rollup/plugin-yaml');
 const path = require('path');
 
 module.exports = {
@@ -22,7 +21,7 @@ module.exports = {
     );
     return mergeConfig(config, {
       ...userConfig,
-      plugins: [yaml()],
+      plugins: [], // for some strange reason, this line is vital for building storybook
     });
   },
 };

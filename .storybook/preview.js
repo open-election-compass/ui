@@ -17,8 +17,8 @@ import { localize } from '@vee-validate/i18n';
 
 // VueI18n
 import { createI18n } from 'vue-i18n';
-import deLocale from '../src/locales/de.yaml';
-import enLocale from '../src/locales/en.yaml';
+import deLocale from '../src/locales/de.json';
+import enLocale from '../src/locales/en.json';
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';

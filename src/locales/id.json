@@ -1,0 +1,18 @@
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "Ada kesalahan",
+        "okay-button": "Baik"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Harap pilih"
+      }
+    },
+    "modal": {
+      "done": "Selesai"
+    }
+  }
+}

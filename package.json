@@ -1,7 +1,7 @@
 {
   "name": "@open-election-compass/ui",
   "description": "Collection of Vue.js components for the OpenElectionCompass web interfaces.",
-  "version": "0.13.0-alpha.2",
+  "version": "0.13.0-alpha.3",
   "author": "Till Sanders <mail@till-sanders.de>",
   "license": "GPL-3.0",
   "files": [
@@ -59,7 +59,6 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
-    "@rollup/plugin-yaml": "^3.1.0",
     "@rushstack/eslint-patch": "^1.1.4",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",

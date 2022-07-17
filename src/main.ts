@@ -10,17 +10,17 @@ import FieldSwitch from './components/fields/switch/FieldSwitch.vue';
 import FieldTextarea from './components/fields/textarea/FieldTextarea.vue';
 import ModalView from './components/modal-view/ModalView.vue';
 
-import arLocale from './locales/ar.yaml';
-import deLocale from './locales/de.yaml';
-import enLocale from './locales/en.yaml';
-import esLocale from './locales/es.yaml';
-import frLocale from './locales/fr.yaml';
-import huLocale from './locales/hu.yaml';
-import idLocale from './locales/id.yaml';
-import itLocale from './locales/it.yaml';
-import plLocale from './locales/pl.yaml';
-import ptLocale from './locales/pt.yaml';
-import trLocale from './locales/tr.yaml';
+import arLocale from './locales/ar.json';
+import deLocale from './locales/de.json';
+import enLocale from './locales/en.json';
+import esLocale from './locales/es.json';
+import frLocale from './locales/fr.json';
+import huLocale from './locales/hu.json';
+import idLocale from './locales/id.json';
+import itLocale from './locales/it.json';
+import plLocale from './locales/pl.json';
+import ptLocale from './locales/pt.json';
+import trLocale from './locales/tr.json';
 
 export {
   Styles,

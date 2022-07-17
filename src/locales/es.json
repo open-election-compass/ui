@@ -1,0 +1,18 @@
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "Se ha producido un error",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Por favor, elige"
+      }
+    },
+    "modal": {
+      "done": "Listo"
+    }
+  }
+}

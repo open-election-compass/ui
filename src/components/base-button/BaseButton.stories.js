@@ -27,7 +27,7 @@ export default {
     type: {
       name: 'Button Type',
       control: 'radio',
-      options: ['button', 'submit', 'reset']
+      options: ['button', 'submit', 'reset'],
     },
     theme: {
       name: 'Theme',
