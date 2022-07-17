@@ -1,10 +1,18 @@
-fa:
-  async-button:
-    error:
-      heading: "An error occurred"
-      okay-button: "Okay"
-  fields:
-    select:
-      choose: "Please choose"
-  modal:
-    done: "Done"
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "An error occurred",
+        "okay-button": "Okay"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Please choose"
+      }
+    },
+    "modal": {
+      "done": "Done"
+    }
+  }
+}
