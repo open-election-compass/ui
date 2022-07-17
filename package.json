@@ -1,7 +1,7 @@
 {
   "name": "@open-election-compass/ui",
   "description": "Collection of Vue.js components for the OpenElectionCompass web interfaces.",
-  "version": "0.13.0",
+  "version": "0.13.0-alpha.0",
   "author": "Till Sanders <mail@till-sanders.de>",
   "license": "GPL-3.0",
   "files": [
@@ -31,7 +31,7 @@
   "scripts": {
     "build": "run-p type-check build-only",
     "test": "vitest --environment jsdom",
-    "dev": "vite",
+    "dev": "npm run storybook",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",

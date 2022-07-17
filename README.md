@@ -64,13 +64,10 @@ defineRule('min', min);
 translations, e.g. FieldSelect adds a 'Please choose' option:
 
 ```js
-// TODO
-import VueI18n from 'vue-i18n';
+import { createI18n } from 'vue-i18n';
 import { deLocale, enLocale } from '@open-election-compass/ui';
 
-Vue.use(VueI18n);
-
-const i18n = new VueI18n({
+const i18n = createI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: {
@@ -79,19 +76,13 @@ const i18n = new VueI18n({
   },
 });
 
-// pass i18n constant to Vue constructor ...
+app.use(i18n);
 ```
 
 ### VScrollLock
 
-The Modal component uses [VScrollLock](https://github.com/phegman/v-scroll-lock) to prevent
-scrolling of the body in the background.
-
-```js
-import VScrollLock from 'v-scroll-lock';
-
-Vue.use(VScrollLock);
-```
+The Modal component uses [VueUse's ScrollLock](https://vueuse.org/core/usescrolllock/) to prevent
+scrolling of the body in the background, so VueUse is a peer dependency.
 
 ### FontAwesome
 
