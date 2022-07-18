@@ -56,7 +56,7 @@ export default defineComponent({
         label: name,
         type: props.type,
         initialValue: props.value,
-      }) as ReturnType<typeof useField>,
+      }),
     };
   },
   watch: {

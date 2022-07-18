@@ -61,7 +61,7 @@ export default defineComponent({
       field: useField<string>(alias, props.rules, {
         label: name,
         initialValue: props.value,
-      }) as ReturnType<typeof useField>,
+      }),
     };
   },
   watch: {

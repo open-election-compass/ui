@@ -15,7 +15,7 @@
       :id="`field-${alias}`"
       :placeholder="placeholder"
       :readonly="readonly"
-      v-model="typeFixedValue.value"
+      v-model="field.value.value"
       @blur="publish"
       @change="field.handleChange"
     />
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef, type Ref } from 'vue';
+import { defineComponent, toRef } from 'vue';
 import { useField, type ValidationResult } from 'vee-validate';
 
 /**
@@ -52,7 +52,7 @@ export default defineComponent({
       field: useField<string>(alias, props.rules, {
         label: name,
         initialValue: props.value,
-      }) as ReturnType<typeof useField>,
+      }),
     };
   },
   watch: {
@@ -111,12 +111,6 @@ export default defineComponent({
     readonly: {
       type: Boolean,
       default: false,
-    },
-  },
-  computed: {
-    typeFixedValue() {
-      // See https://github.com/logaretm/vee-validate/issues/3846
-      return this.field.value as Ref<string>;
     },
   },
   methods: {

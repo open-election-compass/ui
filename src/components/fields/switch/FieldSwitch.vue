@@ -60,7 +60,7 @@ export default defineComponent({
         label: name,
         type: 'radio',
         initialValue: props.value,
-      }) as ReturnType<typeof useField>,
+      }),
     };
   },
   watch: {
