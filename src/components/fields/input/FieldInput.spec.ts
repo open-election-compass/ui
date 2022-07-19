@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { mount, VueWrapper } from '@vue/test-utils';
 import { defineRule } from 'vee-validate';
-import { alpha, required } from '@vee-validate/rules';
+import { alpha, regex, required } from '@vee-validate/rules';
 defineRule('alpha', alpha);
+defineRule('regex', regex);
 defineRule('required', required);
 
 import FieldInput from './FieldInput.vue';
@@ -11,7 +12,7 @@ import { nextTick } from 'vue';
 function factory(
   name: string,
   type: 'email' | 'file' | 'number' | 'password' | 'tel' | 'text' | 'url',
-  rules = 'required',
+  rules: string | Record<string, unknown> = 'required',
   value = ''
 ): VueWrapper<any> {
   return mount(FieldInput, {
@@ -89,6 +90,20 @@ describe('FieldInput', () => {
     expect(wrapper.find('.field-input').classes('field-input--invalid')).toBe(true);
     expect(wrapper.find('.field-input__description').exists()).toBe(false);
     expect(wrapper.find('.field-input__error').exists()).toBe(true);
+  });
+
+  it('validates with object-based rules', async () => {
+    const wrapper = await factory('First Name', 'text', {
+      required: true,
+      regex: new RegExp(/^[a-z]*$/, 'u'),
+    });
+    await wrapper.find('input').setValue('42');
+    await wrapper.find('input').trigger('change'); // trigger v-model
+    await wrapper.find('input').trigger('blur'); // trigger publish()
+    await (wrapper.vm as any).currentValidation;
+    expect((wrapper.find('input').element as any).value).toBe('42');
+    await nextTick();
+    expect(wrapper.find('.field-input').classes('field-input--invalid')).toBe(true);
   });
 
   it('passes properties on (autocomplete, readonly)', async () => {

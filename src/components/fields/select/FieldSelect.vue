@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue';
+import { defineComponent, toRef, type PropType } from 'vue';
 import IconDisplay from '../../icon-display/IconDisplay.vue';
 import { useField, type ValidationResult } from 'vee-validate';
 
@@ -110,7 +110,7 @@ export default defineComponent({
      * A set of vee-validate rules.
      */
     rules: {
-      type: String,
+      type: [String, Object] as PropType<string | Record<string, unknown>>,
       required: true,
     },
     /**

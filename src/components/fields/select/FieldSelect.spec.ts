@@ -12,7 +12,11 @@ const IconDisplay = {
   props: ['name'],
 };
 
-function factory(name: string, value = '', rules = 'required'): VueWrapper {
+function factory(
+  name: string,
+  value = '',
+  rules: string | Record<string, unknown> = 'required'
+): VueWrapper {
   return mount(FieldSelect, {
     global: {
       mocks: {
@@ -95,6 +99,16 @@ describe('FieldSelect', () => {
     expect(wrapper.find('.field-select').classes('field-select--invalid')).toBe(true);
     expect(wrapper.find('.field-select__description').exists()).toBe(false);
     expect(wrapper.find('.field-select__error').exists()).toBe(true);
+  });
+
+  it('validates with object-based rules', async () => {
+    const wrapper = await factory('Doctor', '', {
+      required: true,
+      one_of: ['9', '11', '13'],
+    });
+    await wrapper.find('select').setValue('12');
+    await (wrapper.vm as any).currentValidation;
+    expect(wrapper.find('.field-select').classes('field-select--invalid')).toBe(true);
   });
 
   it('passes properties on (readonly)', async () => {

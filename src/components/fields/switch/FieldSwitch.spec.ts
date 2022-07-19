@@ -7,7 +7,11 @@ defineRule('required', required);
 
 import FieldSwitch from './FieldSwitch.vue';
 
-function factory(name: string, value = '', rules = 'required'): VueWrapper {
+function factory(
+  name: string,
+  value = '',
+  rules: string | Record<string, unknown> = 'required'
+): VueWrapper {
   return mount(FieldSwitch, {
     props: {
       alias: name.toLowerCase(),
@@ -79,6 +83,17 @@ describe('FieldSwitch', () => {
     expect(wrapper.find('.field-switch').classes('field-switch--invalid')).toBe(true);
     expect(wrapper.find('.field-switch__description').exists()).toBe(false);
     expect(wrapper.find('.field-switch__error').exists()).toBe(true);
+  });
+
+  it('validates with object-based rules', async () => {
+    const wrapper = await factory('Gender', '', {
+      required: true,
+      one_of: ['d', 'f'],
+    });
+
+    await wrapper.find('input#field-gender-m').setValue('m');
+    await (wrapper.vm as any).currentValidation;
+    expect(wrapper.find('.field-switch').classes('field-switch--invalid')).toBe(true);
   });
 
   it('passes properties on (readonly)', async () => {

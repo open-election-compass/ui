@@ -7,7 +7,11 @@ defineRule('required', required);
 
 import FieldTextarea from './FieldTextarea.vue';
 
-function factory(name: string, value = '', rules = 'required'): VueWrapper {
+function factory(
+  name: string,
+  value = '',
+  rules: string | Record<string, unknown> = 'required'
+): VueWrapper {
   return mount(FieldTextarea, {
     props: {
       alias: name.toLowerCase(),
@@ -65,13 +69,26 @@ describe('FieldTextarea', () => {
 
     // Invalid input
     await wrapper.find('textarea').setValue('Nope');
-    await wrapper.find('textarea').trigger('blur'); // trigger publish()
+    await wrapper.find('textarea').trigger('change'); // trigger v-model
     await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
     expect((wrapper.emitted().change as any)[1][0]).toBe('');
     expect(wrapper.find('.field-textarea').classes('field-textarea--invalid')).toBe(true);
     expect(wrapper.find('.field-textarea__description').exists()).toBe(false);
     expect(wrapper.find('.field-textarea__error').exists()).toBe(true);
+  });
+
+  it('validates user input and emits change event when input is valid', async () => {
+    const wrapper = await factory('Message', '', {
+      required: true,
+      min: 5,
+    });
+
+    await wrapper.find('textarea').setValue('Nope');
+    await wrapper.find('textarea').trigger('change'); // trigger v-model
+    await wrapper.find('textarea').trigger('blur'); // trigger publish()
+    await (wrapper.vm as any).currentValidation;
+    expect(wrapper.find('.field-textarea').classes('field-textarea--invalid')).toBe(true);
   });
 
   it('passes properties on (readonly)', async () => {
