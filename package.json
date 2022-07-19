@@ -1,7 +1,7 @@
 {
   "name": "@open-election-compass/ui",
   "description": "Collection of Vue.js components for the OpenElectionCompass web interfaces.",
-  "version": "0.13.0-beta.3",
+  "version": "0.13.0-beta.2",
   "author": "Till Sanders <mail@till-sanders.de>",
   "license": "GPL-3.0",
   "files": [
