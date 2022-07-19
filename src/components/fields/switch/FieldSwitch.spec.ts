@@ -71,7 +71,7 @@ describe('FieldSwitch', () => {
     // Valid input
     await wrapper.find('input#field-gender-f').setValue('f');
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[0][0]).toBe('f');
+    expect((wrapper.emitted()['update:value'] as any)[0][0]).toBe('f');
     expect(wrapper.find('.field-switch').classes('field-switch--valid')).toBe(true);
     expect(wrapper.find('.field-switch__description').exists()).toBe(true);
     expect(wrapper.find('.field-switch__error').exists()).toBe(false);
@@ -79,7 +79,7 @@ describe('FieldSwitch', () => {
     // Invalid input
     await wrapper.find('input#field-gender-m').setValue('m');
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[1][0]).toBe('');
+    expect((wrapper.emitted()['update:value'] as any)[1][0]).toBe('');
     expect(wrapper.find('.field-switch').classes('field-switch--invalid')).toBe(true);
     expect(wrapper.find('.field-switch__description').exists()).toBe(false);
     expect(wrapper.find('.field-switch__error').exists()).toBe(true);

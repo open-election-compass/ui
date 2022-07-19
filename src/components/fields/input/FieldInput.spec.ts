@@ -76,7 +76,7 @@ describe('FieldInput', () => {
     await nextTick();
     await wrapper.find('input').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[1][0]).toBe('Luke');
+    expect((wrapper.emitted()['update:value'] as any)[1][0]).toBe('Luke');
     expect(wrapper.find('.field-input').classes('field-input--valid')).toBe(true);
     expect(wrapper.find('.field-input__description').exists()).toBe(true);
     expect(wrapper.find('.field-input__error').exists()).toBe(false);
@@ -86,7 +86,7 @@ describe('FieldInput', () => {
     await wrapper.find('input').trigger('change'); // trigger v-model
     await wrapper.find('input').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[2][0]).toBe('');
+    expect((wrapper.emitted()['update:value'] as any)[2][0]).toBe('');
     expect(wrapper.find('.field-input').classes('field-input--invalid')).toBe(true);
     expect(wrapper.find('.field-input__description').exists()).toBe(false);
     expect(wrapper.find('.field-input__error').exists()).toBe(true);

@@ -62,7 +62,7 @@ describe('FieldTextarea', () => {
     await wrapper.find('textarea').trigger('change'); // trigger v-model
     await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[0][0]).toBe('Hello there!');
+    expect((wrapper.emitted()['update:value'] as any)[0][0]).toBe('Hello there!');
     expect(wrapper.find('.field-textarea').classes('field-textarea--valid')).toBe(true);
     expect(wrapper.find('.field-textarea__description').exists()).toBe(true);
     expect(wrapper.find('.field-textarea__error').exists()).toBe(false);
@@ -72,7 +72,7 @@ describe('FieldTextarea', () => {
     await wrapper.find('textarea').trigger('change'); // trigger v-model
     await wrapper.find('textarea').trigger('blur'); // trigger publish()
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[1][0]).toBe('');
+    expect((wrapper.emitted()['update:value'] as any)[1][0]).toBe('');
     expect(wrapper.find('.field-textarea').classes('field-textarea--invalid')).toBe(true);
     expect(wrapper.find('.field-textarea__description').exists()).toBe(false);
     expect(wrapper.find('.field-textarea__error').exists()).toBe(true);

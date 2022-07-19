@@ -47,7 +47,7 @@ export default defineComponent({
       currentValidation: null as null | Promise<void | ValidationResult>,
     };
   },
-  emits: ['change'],
+  emits: ['update:value'],
   setup(props) {
     // Create Ref on alias. This is important because vee-validate needs to know if the field name
     // changes.
@@ -67,10 +67,6 @@ export default defineComponent({
     value(value: string): void {
       this.field?.setValue(value);
     },
-  },
-  model: {
-    prop: 'value',
-    event: 'change',
   },
   props: {
     /**
@@ -129,9 +125,9 @@ export default defineComponent({
       this.currentValidation = this.field.validate().then((result: ValidationResult) => {
         this.currentValidation = null;
         if (result.valid && this.field.value.value !== null) {
-          this.$emit('change', this.field.value.value);
+          this.$emit('update:value', this.field.value.value);
         } else {
-          this.$emit('change', '');
+          this.$emit('update:value', '');
         }
       });
     },

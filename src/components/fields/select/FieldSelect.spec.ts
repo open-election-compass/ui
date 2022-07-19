@@ -87,7 +87,7 @@ describe('FieldSelect', () => {
     // Valid input
     await wrapper.find('select').setValue('13');
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[0][0]).toBe('13');
+    expect((wrapper.emitted()['update:value'] as any)[0][0]).toBe('13');
     expect(wrapper.find('.field-select').classes('field-select--valid')).toBe(true);
     expect(wrapper.find('.field-select__description').exists()).toBe(true);
     expect(wrapper.find('.field-select__error').exists()).toBe(false);
@@ -95,7 +95,7 @@ describe('FieldSelect', () => {
     // Invalid input
     await wrapper.find('select').setValue('12');
     await (wrapper.vm as any).currentValidation;
-    expect((wrapper.emitted().change as any)[1][0]).toBe('');
+    expect((wrapper.emitted()['update:value'] as any)[1][0]).toBe('');
     expect(wrapper.find('.field-select').classes('field-select--invalid')).toBe(true);
     expect(wrapper.find('.field-select__description').exists()).toBe(false);
     expect(wrapper.find('.field-select__error').exists()).toBe(true);
