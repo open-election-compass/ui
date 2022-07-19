@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "發生錯誤",
+        "okay-button": "確定"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "請選擇"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "完成"
     }
   }
 }
