@@ -159,6 +159,10 @@ export default defineComponent({
   margin-top: 1.25em;
   pointer-events: none;
   right: 1em;
+  [dir='rtl'] & {
+    right: unset;
+    left: 1em;
+  }
 }
 
 .field-select__select {
