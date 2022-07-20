@@ -92,7 +92,7 @@ export default defineComponent({
     },
     value: {
       type: String,
-      required: true,
+      default: null,
     },
     /**
      * An array of options in this form: `{ value: string, option: string }`.

@@ -1,4 +1,5 @@
 import { app } from '@storybook/vue3';
+import { withDirection } from 'storybook-rtl-addon';
 
 // VeeValidate
 import { configure, defineRule } from 'vee-validate';
@@ -87,6 +88,7 @@ export const decorators = [
     i18n,
     template: '<story />',
   }),
+  withDirection,
 ];
 
 // Configure FontAwesome

@@ -366,13 +366,13 @@ export default defineComponent({
 
 .base-button__left-icon {
   display: inline-block;
-  margin-right: 1em;
+  margin-inline-end: 1em;
   color: inherit;
 }
 
 .base-button__right-icon {
   display: inline-block;
-  margin-left: 1em;
+  margin-inline-start: 1em;
   color: inherit;
 }
 

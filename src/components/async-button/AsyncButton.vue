@@ -416,11 +416,11 @@ export default defineComponent({
 }
 
 .async-button__icon--left {
-  margin-right: 1em;
+  margin-inline-start: 1em;
 }
 
 .async-button__icon--right {
-  margin-left: 1em;
+  margin-inline-start: 1em;
   order: 2;
 }
 
@@ -440,6 +440,9 @@ export default defineComponent({
   .icon-enter {
     transform: translateX(1em);
     opacity: 0;
+    [dir='rtl'] & {
+      transform: translateX(-1em);
+    }
   }
   .icon-leave-active {
     transition: all 0.25s ease-out;
@@ -447,6 +450,9 @@ export default defineComponent({
   .icon-leave-to {
     transform: translateX(-1em);
     opacity: 0;
+    [dir='rtl'] & {
+      transform: translateX(1em);
+    }
   }
 }
 </style>

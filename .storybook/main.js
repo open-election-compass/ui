@@ -7,6 +7,8 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-knobs',
+    'storybook-rtl-addon',
   ],
   framework: '@storybook/vue3',
   core: {
