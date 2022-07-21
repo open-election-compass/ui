@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "ഒരു പിശക് സംഭവിച്ചു",
+        "okay-button": "ശരി"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "ദയവായി തിരഞ്ഞെടുക്കൂ"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "ചെയ്തു"
     }
   }
 }
