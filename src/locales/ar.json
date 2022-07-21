@@ -1,0 +1,18 @@
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "طرأ خطأ",
+        "okay-button": "حسناً"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "اختر رجاءً"
+      }
+    },
+    "modal": {
+      "done": "إتمام الاختيار"
+    }
+  }
+}
