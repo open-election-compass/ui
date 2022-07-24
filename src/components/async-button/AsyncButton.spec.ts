@@ -222,6 +222,54 @@ describe('AsyncButton', () => {
     vi.useRealTimers();
   });
 
+  it.only('emits success and error events', async () => {
+    vi.useFakeTimers();
+
+    const button = wrapper.find('button.async-button');
+    expect(wrapper.getComponent({ ref: 'icon' }).props('name')).toBe('angle-right');
+
+    // Successful action
+    await wrapper.setProps({
+      action: (): Promise<number> =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(123);
+          }, 2000);
+        }),
+    });
+
+    await button.trigger('click');
+
+    await nextTick();
+    // pending
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    expect((wrapper.emitted()['success'] as any)[0][0]).toBe(123);
+    vi.runAllTimers();
+    await nextTick();
+
+    // Unsuccessful action
+    const error = new Error('foo');
+    await wrapper.setProps({
+      action: (): Promise<Error> =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject(error), 2000);
+        }),
+    });
+
+    await button.trigger('click');
+
+    await nextTick();
+    // pending
+    vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+    expect((wrapper.emitted()['error'] as any)[0][0]).toBe(error);
+
+    vi.useRealTimers();
+  });
+
   it('shows error messages in a modal', async () => {
     vi.useFakeTimers();
 

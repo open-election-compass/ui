@@ -93,7 +93,7 @@ export default defineComponent({
     IconDisplay,
     ModalView,
   },
-  emits: ['click'],
+  emits: ['click', 'success', 'error'],
   data() {
     return {
       status: 'idle' as 'idle' | 'pending' | 'error' | 'success',
@@ -192,12 +192,14 @@ export default defineComponent({
       this.$emit('click', event);
       this.status = 'pending';
       this.action().then(
-        () => {
+        (result) => {
           this.status = 'success';
+          this.$emit('success', result);
           this.scheduleStatusReset();
         },
         (error: Error) => {
           this.status = 'error';
+          this.$emit('error', error);
           this.error = error.message;
           this.scheduleStatusReset();
         }
