@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "Dogodila se pogreška",
+        "okay-button": "U redu"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "Odaberite"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "Izvršeno"
     }
   }
 }
