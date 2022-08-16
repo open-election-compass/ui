@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "A apărut o eroare",
+        "okay-button": "Ok"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "Vă rugăm să alegeți"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "Efectuat"
     }
   }
 }

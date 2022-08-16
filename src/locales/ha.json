@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "An samu matsala",
+        "okay-button": "OK"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "Dan Allah zaɓa"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "Na gama"
     }
   }
 }
