@@ -2,17 +2,17 @@
   "ui": {
     "async-button": {
       "error": {
-        "heading": "An error occurred",
-        "okay-button": "Okay"
+        "heading": "Tapahtui virhe",
+        "okay-button": "Selvä"
       }
     },
     "fields": {
       "select": {
-        "choose": "Please choose"
+        "choose": "Ole hyvä ja valitse"
       }
     },
     "modal": {
-      "done": "Done"
+      "done": "Valmis"
     }
   }
 }
