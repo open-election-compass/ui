@@ -1,0 +1,18 @@
+{
+  "ui": {
+    "async-button": {
+      "error": {
+        "heading": "Възникна грешка",
+        "okay-button": "Добре"
+      }
+    },
+    "fields": {
+      "select": {
+        "choose": "Моля, изберете"
+      }
+    },
+    "modal": {
+      "done": "Готово"
+    }
+  }
+}
